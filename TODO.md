@@ -9,8 +9,8 @@ Marque cada item com `[x]` conforme for concluindo.
 
 ## Fase 0 — Preparação (antes de codar)
 
-- [ ] Confirmar que Docker e Docker Compose estão disponíveis no ambiente onde você vai desenvolver (pode ser sua máquina local, não precisa ser o servidor Ubuntu ainda)
-- [ ] Instalar Node.js LTS e escolher gerenciador de pacotes (npm é suficiente, sem necessidade de pnpm/yarn)
+- [x] Confirmar que Docker e Docker Compose estão disponíveis no ambiente onde você vai desenvolver (pode ser sua máquina local, não precisa ser o servidor Ubuntu ainda)
+- [x] Instalar Node.js LTS e escolher gerenciador de pacotes (npm é suficiente, sem necessidade de pnpm/yarn)
 - [ ] Instalar um cliente de banco (DBeaver, TablePlus ou psql) pra inspecionar o Postgres durante o desenvolvimento
 
 ---
@@ -19,17 +19,17 @@ Marque cada item com `[x]` conforme for concluindo.
 
 ### Dia 1
 - [ ] Criar repositório git com estrutura de pastas `backend/`, `frontend/`, `docs/`
-- [ ] Criar `.gitignore` geral (node_modules, dist, .env, etc.)
-- [ ] Criar `docker-compose.yml` inicial só com o serviço `postgres` (imagem, porta, volume nomeado, variáveis de ambiente)
-- [ ] Criar `.env.example` na raiz com as variáveis do Postgres (usuário, senha, database, porta)
-- [ ] Subir `docker compose up -d` e validar a conexão com o Postgres usando o cliente de banco
+- [x] Criar `.gitignore` geral (node_modules, dist, .env, etc.)
+- [x] Criar `docker-compose.yml` inicial só com o serviço `postgres` (imagem, porta, volume nomeado, variáveis de ambiente)
+- [x] Criar `.env.example` na raiz com as variáveis do Postgres (usuário, senha, database, porta)
+- [x] Subir `docker compose up -d` e validar a conexão com o Postgres usando o cliente de banco
 
 ### Dia 2
-- [ ] Iniciar projeto backend (`npm init`, TypeScript, `tsconfig.json`, pasta `src/`)
-- [ ] Instalar Express + dependências básicas (`cors`, `dotenv`, `morgan`)
-- [ ] Criar servidor "Hello World" com rota `GET /health`
-- [ ] Configurar scripts no `package.json` (`dev` com `tsx watch`, `build`, `start`)
-- [ ] Rodar local e confirmar que sobe sem erro
+- [x] Iniciar projeto backend (`npm init`, TypeScript, `tsconfig.json`, pasta `src/`)
+- [x] Instalar Express + dependências básicas (`cors`, `dotenv`, `morgan`)
+- [x] Criar servidor "Hello World" com rota `GET /health`
+- [x] Configurar scripts no `package.json` (`dev` com `tsx watch`, `build`, `start`)
+- [x] Rodar local e confirmar que sobe sem erro
 
 ### Dia 3
 - [ ] Instalar Prisma no backend e rodar `npx prisma init`
