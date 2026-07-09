@@ -32,11 +32,11 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Rodar local e confirmar que sobe sem erro
 
 ### Dia 3
-- [ ] Instalar Prisma no backend e rodar `npx prisma init`
-- [ ] Apontar `DATABASE_URL` do Prisma pro Postgres do `docker-compose`
-- [ ] Validar a conexão (`npx prisma db pull` ou uma migration vazia)
-- [ ] Organizar estrutura de pastas do backend (`src/routes`, `src/controllers`, `src/services`, `prisma/`)
-- [ ] Commit inicial (backend + docker-compose + .env.example)
+- [x] Instalar Prisma no backend e rodar `npx prisma init`
+- [x] Apontar `DATABASE_URL` do Prisma pro Postgres do `docker-compose`
+- [x] Validar a conexão (`npx prisma db pull` ou uma migration vazia)
+- [x] Organizar estrutura de pastas do backend (`src/routes`, `src/controllers`, `src/services`, `prisma/`)
+- [x] Commit inicial (backend + docker-compose + .env.example)
 
 ---
 
