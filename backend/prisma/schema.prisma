@@ -19,16 +19,18 @@ model Supplier {
   contact     String? 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  purchases   Purchase[]
 }
 
 model Product {
-  id              Int       @id @default(autoincrement())
-  name            String
-  category        String
-  unit            String
-  specification   String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id              Int             @id @default(autoincrement())
+  name            String      
+  category        String      
+  unit            String      
+  specification   String?     
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  purchaseItens   PurchaseItem[]
 }
 
 model User {
@@ -36,9 +38,38 @@ model User {
   name        String
   login       String    @unique
   createdAt   DateTime  @default(now())
+  purchases   Purchase[]
+}
+
+model Purchase {
+  id                Int                   @id @default(autoincrement())
+  accessKey         String?               @unique
+  invoiceNumber     String
+  issueDate         DateTime
+  totalAmount       Decimal               @db.Decimal(10, 2)
+  entryMethod       PurchaseEntryMethod
+  supplierId        Int
+  supplier          Supplier              @relation(fields: [supplierId], references: [id])
+  userId            Int       
+  user              User                  @relation(fields: [userId], references: [id])
+  items             PurchaseItem[]      
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+}
+
+model PurchaseItem {
+  id Int @id @default(autoincrement())
+  purchaseId Int
+  purchase Purchase @relation(fields: [purchaseId], references: [id])
+  productId Int
+  Product Product @relation(fields: [productId], references: [id])
+  quantity Decimal @db.Decimal(10, 3)
+  unitPrice Decimal @db.Decimal(10, 2)
+  totalPrice Decimal @db.Decimal(10, 2)
 }
 
 enum PurchaseEntryMethod {
   MANUAL
   SCANNED
 }
+
