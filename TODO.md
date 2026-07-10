@@ -58,9 +58,9 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Rodar o seed e validar os dados no banco (contagem de linhas confirmada via psql)
 
 ### Dia 7 (revisão)
-- [ ] Revisar nomes de campos/tabelas e ajustar o que incomodar antes de acumular mais migrations em cima
-- [ ] Gerar um diagrama simples do schema (ex: `prisma-erd-generator`, ou até um desenho manual) e salvar em `docs/`
-- [ ] Commit
+- [x] Revisar nomes de campos/tabelas e ajustar o que incomodar antes de acumular mais migrations em cima
+- [x] Gerar um diagrama simples do schema (diagrama Mermaid em `docs/erd.md`, renderizado pelo GitHub)
+- [x] Commit
 
 ---
 
