@@ -30,7 +30,7 @@ model Product {
   specification   String?     
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
-  purchaseItens   PurchaseItem[]
+  purchaseItems   PurchaseItem[]
 }
 
 model User {
@@ -62,7 +62,7 @@ model PurchaseItem {
   purchaseId Int
   purchase Purchase @relation(fields: [purchaseId], references: [id])
   productId Int
-  Product Product @relation(fields: [productId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
   quantity Decimal @db.Decimal(10, 3)
   unitPrice Decimal @db.Decimal(10, 2)
   totalPrice Decimal @db.Decimal(10, 2)
