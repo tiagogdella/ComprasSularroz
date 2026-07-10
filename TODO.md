@@ -48,9 +48,9 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Rodar primeira migration: `npx prisma migrate dev --name init_supplier_product_user`
 
 ### Dia 5
-- [ ] Modelar `Compra` (chave de acesso opcional, número da nota, data de emissão, fornecedor, valor total, forma de lançamento, usuário que lançou) e `ItemCompra` (produto, quantidade, valor unitário, valor total, vínculo com a compra)
-- [ ] Rodar migration: `npx prisma migrate dev --name add_compra_itemcompra`
-- [ ] Adicionar índice único na chave de acesso da nota e índice no CNPJ do fornecedor
+- [x] Modelar `Purchase` (chave de acesso opcional, número da nota, data de emissão, fornecedor, valor total, forma de lançamento, usuário que lançou) e `PurchaseItem` (produto, quantidade, valor unitário, valor total, vínculo com a compra) — nomes em inglês
+- [x] Rodar migration: `npx prisma migrate dev --name add_purchase_purchaseitem`
+- [x] Adicionar índice único na chave de acesso da nota (`accessKey`) — índice único no CNPJ do fornecedor já foi feito no Dia 4
 
 ### Dia 6
 - [ ] Criar `prisma/seed.ts` com dados de exemplo: 3-5 fornecedores, 10-15 produtos variados, 1 usuário admin, algumas compras completas com itens
