@@ -11,3 +11,34 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Supplier {
+  id          Int       @id @default(autoincrement())
+  name        String  
+  taxId       String    @unique
+  contact     String? 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id              Int       @id @default(autoincrement())
+  name            String
+  category        String
+  unit            String
+  specification   String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  name        String
+  login       String    @unique
+  createdAt   DateTime  @default(now())
+}
+
+enum PurchaseEntryMethod {
+  MANUAL
+  SCANNED
+}
