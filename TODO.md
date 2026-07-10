@@ -43,9 +43,9 @@ Marque cada item com `[x]` conforme for concluindo.
 ## Semana 2 — Schema do banco + migrations + seed
 
 ### Dia 4
-- [ ] Modelar no `schema.prisma`: `Fornecedor`, `Produto` (incluir campo `especificacao`/detalhes técnicos, além de nome, categoria e unidade de medida — importante pra você conseguir identificar exatamente qual peça foi comprada), `Usuario`
-- [ ] Definir enum `FormaLancamento` (`MANUAL`, `ESCANEADA`) e, se fizer sentido, um enum ou tabela simples pra categoria de manutenção do produto
-- [ ] Rodar primeira migration: `npx prisma migrate dev --name init_fornecedor_produto_usuario`
+- [x] Modelar no `schema.prisma`: `Supplier`, `Product` (com campo `specification`, além de `name`, `category` e `unit`), `User` (nomes em inglês, conforme convenção adotada)
+- [x] Definir enum `PurchaseEntryMethod` (`MANUAL`, `SCANNED`)
+- [x] Rodar primeira migration: `npx prisma migrate dev --name init_supplier_product_user`
 
 ### Dia 5
 - [ ] Modelar `Compra` (chave de acesso opcional, número da nota, data de emissão, fornecedor, valor total, forma de lançamento, usuário que lançou) e `ItemCompra` (produto, quantidade, valor unitário, valor total, vínculo com a compra)
