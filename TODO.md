@@ -53,9 +53,9 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Adicionar índice único na chave de acesso da nota (`accessKey`) — índice único no CNPJ do fornecedor já foi feito no Dia 4
 
 ### Dia 6
-- [ ] Criar `prisma/seed.ts` com dados de exemplo: 3-5 fornecedores, 10-15 produtos variados, 1 usuário admin, algumas compras completas com itens
-- [ ] Configurar o script de seed (`prisma.seed` no `package.json` + `npm run seed`)
-- [ ] Rodar o seed e validar os dados no cliente de banco
+- [x] Criar `prisma/seed.ts` com dados de exemplo: 4 fornecedores, 12 produtos variados, 1 usuário admin, 2 compras completas com itens
+- [x] Configurar o script de seed (`seed` no `prisma.config.ts` via `migrations.seed` + `npm run seed` no `package.json`)
+- [x] Rodar o seed e validar os dados no banco (contagem de linhas confirmada via psql)
 
 ### Dia 7 (revisão)
 - [ ] Revisar nomes de campos/tabelas e ajustar o que incomodar antes de acumular mais migrations em cima
