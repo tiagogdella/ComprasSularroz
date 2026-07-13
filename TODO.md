@@ -71,8 +71,8 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Validação de entrada com `zod` no corpo das requisições de `Supplier`
 
 ### Dia 9
-- [ ] CRUD de `Produto`: rotas + validação de entrada
-- [ ] Endpoint `GET /produtos?search=` pra alimentar autocomplete no formulário depois
+- [x] CRUD de `Product`: rotas + validação de entrada (testado ponta a ponta via curl)
+- [x] Endpoint `GET /products?search=` pra alimentar autocomplete no formulário depois (busca parcial, sem diferenciar maiúscula/minúscula)
 
 ### Dia 10
 - [ ] `POST /compras`: criar a compra junto com os itens numa única transação Prisma (`$transaction`)
