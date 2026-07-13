@@ -67,8 +67,8 @@ Marque cada item com `[x]` conforme for concluindo.
 ## Semana 3 — API REST básica (CRUD)
 
 ### Dia 8
-- [ ] CRUD de `Fornecedor`: `GET /fornecedores`, `GET /fornecedores/:id`, `POST`, `PUT`, `DELETE`
-- [ ] Validação de entrada (zod, por exemplo) no corpo das requisições de Fornecedor
+- [x] CRUD de `Supplier`: `GET /suppliers`, `GET /suppliers/:id`, `POST`, `PUT`, `DELETE` (testado ponta a ponta via curl)
+- [x] Validação de entrada com `zod` no corpo das requisições de `Supplier`
 
 ### Dia 9
 - [ ] CRUD de `Produto`: rotas + validação de entrada
