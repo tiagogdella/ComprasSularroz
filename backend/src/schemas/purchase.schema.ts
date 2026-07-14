@@ -17,3 +17,14 @@ export const createPurchaseSchema = z.object({
 });
 
 export type CreatePurchaseInput = z.infer<typeof createPurchaseSchema>;
+
+export const listPurchasesQuerySchema = z.object({
+    page: z.coerce.number().int().positive().optional(),
+    pageSize: z.coerce.number().int().positive().max(100).optional(),
+    startDate: z.coerce.date().optional(),
+    endDate: z.coerce.date().optional(),
+    supplierId: z.coerce.number().int().positive().optional(),
+    category: z.string().min(1).optional(),
+});
+
+export type ListPurchasesQuery = z.infer<typeof listPurchasesQuerySchema>;

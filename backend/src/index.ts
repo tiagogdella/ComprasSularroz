@@ -18,6 +18,7 @@ app.use("/suppliers", supplierRouter);
 app.use("/products", productRouter);
 app.use("/purchases", purchaseRouter);
 
+
 app.get("/health", (_req, res) =>{
     res.json({status: "ok"});
 });
