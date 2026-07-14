@@ -79,8 +79,8 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Calcular o valor total da compra a partir da soma dos itens no backend (não confia em valor enviado do frontend)
 
 ### Dia 11
-- [ ] `GET /compras`: listagem paginada com filtros (data, fornecedor, categoria)
-- [ ] `GET /compras/:id`: detalhe da compra com os itens incluídos
+- [x] `GET /purchases`: listagem paginada com filtros (data, fornecedor, categoria), testada via curl
+- [x] `GET /purchases/:id`: detalhe da compra com os itens, produto, fornecedor e usuário incluídos
 
 ### Dia 12
 - [ ] `PUT /compras/:id` e `DELETE /compras/:id`, com cuidado ao atualizar/remover itens vinculados
