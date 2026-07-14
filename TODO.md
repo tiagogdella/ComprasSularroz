@@ -75,8 +75,8 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Endpoint `GET /products?search=` pra alimentar autocomplete no formulário depois (busca parcial, sem diferenciar maiúscula/minúscula)
 
 ### Dia 10
-- [ ] `POST /compras`: criar a compra junto com os itens numa única transação Prisma (`$transaction`)
-- [ ] Calcular o valor total da compra a partir da soma dos itens (não confiar em valor enviado do frontend)
+- [x] `POST /purchases`: criar a compra junto com os itens numa escrita aninhada atômica do Prisma (testada a atomicidade: item inválido não deixa compra órfã)
+- [x] Calcular o valor total da compra a partir da soma dos itens no backend (não confia em valor enviado do frontend)
 
 ### Dia 11
 - [ ] `GET /compras`: listagem paginada com filtros (data, fornecedor, categoria)
