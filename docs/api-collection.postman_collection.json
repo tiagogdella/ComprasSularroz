@@ -1,0 +1,154 @@
+{
+  "info": {
+    "name": "ComprasSularroz API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET /health",
+          "request": { "method": "GET", "url": "{{baseUrl}}/health" }
+        }
+      ]
+    },
+    {
+      "name": "Suppliers",
+      "item": [
+        {
+          "name": "List suppliers",
+          "request": { "method": "GET", "url": "{{baseUrl}}/suppliers" }
+        },
+        {
+          "name": "Get supplier by id",
+          "request": { "method": "GET", "url": "{{baseUrl}}/suppliers/1" }
+        },
+        {
+          "name": "Create supplier",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Fornecedor Teste\",\n  \"taxId\": \"12345678000199\",\n  \"contact\": \"Contato Teste\"\n}"
+            },
+            "url": "{{baseUrl}}/suppliers"
+          }
+        },
+        {
+          "name": "Update supplier",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contact\": \"Novo contato atualizado\"\n}"
+            },
+            "url": "{{baseUrl}}/suppliers/1"
+          }
+        },
+        {
+          "name": "Delete supplier",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/suppliers/1" }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List products",
+          "request": { "method": "GET", "url": "{{baseUrl}}/products" }
+        },
+        {
+          "name": "Search products by name",
+          "request": { "method": "GET", "url": "{{baseUrl}}/products?search=oleo" }
+        },
+        {
+          "name": "Get product by id",
+          "request": { "method": "GET", "url": "{{baseUrl}}/products/1" }
+        },
+        {
+          "name": "Create product",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Produto Teste\",\n  \"category\": \"Teste\",\n  \"unit\": \"unidade\"\n}"
+            },
+            "url": "{{baseUrl}}/products"
+          }
+        },
+        {
+          "name": "Update product",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"specification\": \"Especificacao atualizada\"\n}"
+            },
+            "url": "{{baseUrl}}/products/1"
+          }
+        },
+        {
+          "name": "Delete product",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/products/1" }
+        }
+      ]
+    },
+    {
+      "name": "Purchases",
+      "item": [
+        {
+          "name": "List purchases",
+          "request": { "method": "GET", "url": "{{baseUrl}}/purchases" }
+        },
+        {
+          "name": "List purchases with filters",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/purchases?supplierId=1&category=Lubrificantes&page=1&pageSize=20"
+          }
+        },
+        {
+          "name": "Get purchase by id",
+          "request": { "method": "GET", "url": "{{baseUrl}}/purchases/1" }
+        },
+        {
+          "name": "Create purchase",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoiceNumber\": \"000300\",\n  \"issueDate\": \"2026-07-15\",\n  \"entryMethod\": \"MANUAL\",\n  \"supplierId\": 1,\n  \"userId\": 1,\n  \"items\": [\n    { \"productId\": 1, \"quantity\": 2, \"unitPrice\": 45.90 }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/purchases"
+          }
+        },
+        {
+          "name": "Update purchase",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoiceNumber\": \"000300-v2\",\n  \"issueDate\": \"2026-07-15\",\n  \"entryMethod\": \"MANUAL\",\n  \"supplierId\": 1,\n  \"userId\": 1,\n  \"items\": [\n    { \"productId\": 1, \"quantity\": 1, \"unitPrice\": 45.90 }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/purchases/1"
+          }
+        },
+        {
+          "name": "Delete purchase",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/purchases/1" }
+        }
+      ]
+    }
+  ]
+}
