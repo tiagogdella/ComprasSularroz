@@ -28,3 +28,5 @@ export const listPurchasesQuerySchema = z.object({
 });
 
 export type ListPurchasesQuery = z.infer<typeof listPurchasesQuerySchema>;
+
+export const updatePurchaseSchema = createPurchaseSchema; 

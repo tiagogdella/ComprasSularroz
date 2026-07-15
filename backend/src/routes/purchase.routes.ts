@@ -6,3 +6,5 @@ export const purchaseRouter = Router();
 purchaseRouter.post("/", purchaseController.create);
 purchaseRouter.get("/", purchaseController.list);
 purchaseRouter.get("/:id", purchaseController.getById);
+purchaseRouter.put("/:id", purchaseController.update);
+purchaseRouter.delete("/:id", purchaseController.remove);

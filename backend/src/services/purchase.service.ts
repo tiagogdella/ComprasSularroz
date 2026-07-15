@@ -79,3 +79,39 @@ export function createPurchase(data: CreatePurchaseInput) {
     });
 }
 
+export function updatePurchase(id: number, data: CreatePurchaseInput) {
+    const items = data.items.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+        totalPrice: round2(item.quantity * item.unitPrice),
+    }));
+
+    const totalAmount = round2(items.reduce((sum, item) => sum + item.totalPrice, 0));
+
+    return prisma.purchase.update({
+        where: { id },
+        data: {
+            accessKey: data.accessKey,
+            invoiceNumber: data.invoiceNumber,
+            issueDate: data.issueDate,
+            entryMethod: data.entryMethod,
+            totalAmount,
+            supplierId: data.supplierId,
+            userId: data.userId,
+            items: {
+                deleteMany: {},
+                create: items,
+            },
+        },
+        include: { items: true },
+    });
+}
+
+export function deletePurchase(id: number) {
+    return prisma.$transaction([
+        prisma.purchaseItem.deleteMany({ where: { purchaseId: id } }),
+        prisma.purchase.delete({ where: { id } }),
+    ]);
+}
+
