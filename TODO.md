@@ -83,8 +83,8 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] `GET /purchases/:id`: detalhe da compra com os itens, produto, fornecedor e usuário incluídos
 
 ### Dia 12
-- [ ] `PUT /compras/:id` e `DELETE /compras/:id`, com cuidado ao atualizar/remover itens vinculados
-- [ ] Testar toda a API manualmente (Insomnia/Postman/Thunder Client) e salvar a collection em `docs/`
+- [x] `PUT /purchases/:id` (substitui itens via escrita aninhada `deleteMany`+`create`) e `DELETE /purchases/:id` (`$transaction` explícito, já que apagar a compra exige apagar os itens antes por causa da FK `RESTRICT`)
+- [x] Testada a API manualmente (Postman) e salva a collection em `docs/api-collection.postman_collection.json`
 
 ### Dia 13 (revisão)
 - [ ] Middleware central de tratamento de erros, com respostas padronizadas (status + mensagem)
