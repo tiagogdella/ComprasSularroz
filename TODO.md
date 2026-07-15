@@ -87,8 +87,8 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Testada a API manualmente (Postman) e salva a collection em `docs/api-collection.postman_collection.json`
 
 ### Dia 13 (revisão)
-- [ ] Middleware central de tratamento de erros, com respostas padronizadas (status + mensagem)
-- [ ] Revisão geral e commit
+- [x] Middleware central de tratamento de erros (`AppError` + mapeamento de códigos Prisma P2002/P2025/P2003), respostas padronizadas em JSON, sem vazar stack trace; testados os casos que antes davam 500 feio
+- [x] Revisão geral e commit
 
 ---
 
