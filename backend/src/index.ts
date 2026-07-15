@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { supplierRouter } from "./routes/supplier.routes.js";
 import { productRouter } from "./routes/product.routes.js";
 import { purchaseRouter } from "./routes/purchase.routes.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 dotenv.config({ path: "../.env" });
 
@@ -22,6 +23,12 @@ app.use("/purchases", purchaseRouter);
 app.get("/health", (_req, res) =>{
     res.json({status: "ok"});
 });
+
+app.use((req, res) => {
+    res.status(404).json({ message: "Router not found" });
+})
+
+app.use(errorHandler);
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
