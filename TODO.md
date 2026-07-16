@@ -95,9 +95,9 @@ Marque cada item com `[x]` conforme for concluindo.
 ## Semana 4 — Autenticação simples
 
 ### Dia 14
-- [ ] Adicionar hash de senha ao model `Usuario` no schema, rodar migration
-- [ ] `POST /auth/login`: validar usuário/senha (bcrypt) e emitir JWT
-- [ ] Middleware de autenticação: validar o JWT no header `Authorization`
+- [x] Adicionar `passwordHash` ao model `User` no schema (bcryptjs), rodar migration
+- [x] `POST /auth/login`: validar usuário/senha (bcryptjs) e emitir JWT (testado com senha certa/errada e login inexistente)
+- [x] Middleware de autenticação (`authenticate.ts`): valida o JWT no header `Authorization: Bearer <token>` (ainda não aplicado a nenhuma rota — isso é o Dia 15)
 
 ### Dia 15
 - [ ] Proteger rotas de escrita (`POST`/`PUT`/`DELETE`) com o middleware de autenticação
