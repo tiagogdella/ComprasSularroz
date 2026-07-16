@@ -100,9 +100,9 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Middleware de autenticação (`authenticate.ts`): valida o JWT no header `Authorization: Bearer <token>` (ainda não aplicado a nenhuma rota — isso é o Dia 15)
 
 ### Dia 15
-- [ ] Proteger rotas de escrita (`POST`/`PUT`/`DELETE`) com o middleware de autenticação
-- [ ] Adicionar 2-3 usuários fixos ao seed
-- [ ] Testar login e acesso às rotas protegidas via Postman
+- [x] Proteger rotas de escrita (`POST`/`PUT`/`DELETE`) com o middleware de autenticação (`GET` continua público)
+- [x] Adicionar 3 usuários fixos ao seed (`admin`, `joao`, `maria`)
+- [x] Testado login e acesso às rotas protegidas via Postman (sem token, token inválido, token válido, e `GET` público confirmado)
 
 ---
 
