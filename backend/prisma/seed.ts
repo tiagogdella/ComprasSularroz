@@ -35,14 +35,12 @@ async function main() {
         prisma.product.create({ data: { name: "Luva de proteção", category: "EPI", unit: "par", specification: "Vaqueta, tamanho G" } }),
     ]);
 
-   const admin = await prisma.user.create({
-        data: {
-        name: "Administrador",
-        login: "admin",
-        passwordHash: await bcrypt.hash("admin123", 10),
-        },
-    });
-
+   const [admin, joao, maria] = await Promise.all([
+        prisma.user.create({ data: { name: "Administrador", login: "admin", passwordHash: await bcrypt.hash("admin123", 10) } }),
+        prisma.user.create({ data: { name: "João Silva", login: "joao", passwordHash: await bcrypt.hash("joao123", 10) } }),
+        prisma.user.create({ data: { name: "Maria Souza", login: "maria", passwordHash: await bcrypt.hash("maria123", 10) } }),
+    ]); 
+   
     await prisma.purchase.create({
         data: {
             invoiceNumber: "000123",
