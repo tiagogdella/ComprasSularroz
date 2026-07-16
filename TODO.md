@@ -250,5 +250,5 @@ Marque cada item com `[x]` conforme for concluindo.
 
 ## Notas de decisão em aberto
 
-- **UI Kit do frontend**: sugestão é **Naive UI** — mais leve, ótima integração nativa com Composition API/TypeScript, sem depender de estilos globais pesados. PrimeVue é igualmente válido se você preferir mais componentes prontos (tabelas mais robustas, por exemplo). Decida no Dia 16, sem compromisso.
-- **Express vs Fastify**: sugestão é **Express** por ser mais comum e ter mais material de referência para quem está começando; Fastify é mais rápido mas exige mais familiaridade com seu ecossistema de plugins. Decida no Dia 2.
+- **UI Kit do frontend**: ✅ decidido no Dia 16 — **Naive UI**.
+- **Express vs Fastify**: ✅ decidido no Dia 2 — **Express**.
