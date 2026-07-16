@@ -34,11 +34,12 @@ model Product {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
-  name        String
-  login       String    @unique
-  createdAt   DateTime  @default(now())
-  purchases   Purchase[]
+  id              Int       @id @default(autoincrement())
+  name            String
+  login           String    @unique
+  passwordHash    String
+  createdAt       DateTime  @default(now())
+  purchases       Purchase[]
 }
 
 model Purchase {
@@ -72,4 +73,5 @@ enum PurchaseEntryMethod {
   MANUAL
   SCANNED
 }
+ 
 

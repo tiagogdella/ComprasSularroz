@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 import { prisma } from "../src/lib/prisma.js";
-import { access } from "node:fs";
+import bcrypt from "bcryptjs";
 
 async function main() {
     // clean the db before it seeds to not duplicate
@@ -35,7 +35,13 @@ async function main() {
         prisma.product.create({ data: { name: "Luva de proteção", category: "EPI", unit: "par", specification: "Vaqueta, tamanho G" } }),
     ]);
 
-    const admin = await prisma.user.create({ data: { name: "Administrador", login: "admin" } });
+   const admin = await prisma.user.create({
+        data: {
+        name: "Administrador",
+        login: "admin",
+        passwordHash: await bcrypt.hash("admin123", 10),
+        },
+    });
 
     await prisma.purchase.create({
         data: {
