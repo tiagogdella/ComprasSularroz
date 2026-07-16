@@ -109,10 +109,10 @@ Marque cada item com `[x]` conforme for concluindo.
 ## Semana 5 — Frontend: lançamento manual de compra + histórico
 
 ### Dia 16
-- [ ] Criar projeto frontend com Vite + Vue 3 + TypeScript
-- [ ] Instalar Vue Router, Pinia, axios e a lib de UI escolhida (Naive UI ou PrimeVue — ver nota abaixo)
-- [ ] Organizar estrutura de pastas (`views/`, `components/`, `stores/`, `services/api`)
-- [ ] Tela de login simples; guardar o JWT (Pinia + localStorage)
+- [x] Criar projeto frontend com Vite + Vue 3 + TypeScript
+- [x] Instalar Vue Router, Pinia, axios e Naive UI (decisão tomada — ver nota abaixo)
+- [x] Organizar estrutura de pastas (`views/`, `components/`, `stores/`, `services/api`, `router/`)
+- [x] Tela de login simples; guarda o JWT (Pinia + localStorage), testada ponta a ponta com o backend
 
 ### Dia 17
 - [ ] Layout base (header + menu lateral simples)
