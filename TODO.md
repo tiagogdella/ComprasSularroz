@@ -119,8 +119,8 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Guarda de rotas (`router.beforeEach`, redireciona pro login se não autenticado, e pro home se já estiver logado); store de autenticação (Pinia) já tinha sido feito no Dia 16
 
 ### Dia 18
-- [ ] Formulário de lançamento manual: dados da nota (fornecedor, número, data de emissão, forma de lançamento)
-- [ ] Campo de fornecedor com autocomplete (buscar existente ou cadastrar rápido se não existir)
+- [x] Formulário de lançamento manual: dados da nota (fornecedor, número, data de emissão, forma de lançamento)
+- [x] Campo de fornecedor com autocomplete (busca client-side no `n-select filterable`; cadastro rápido via modal quando não existe)
 
 ### Dia 19
 - [ ] Seção de itens da compra: adicionar/remover linhas (produto, quantidade, valor unitário)
