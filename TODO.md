@@ -115,8 +115,8 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Tela de login simples; guarda o JWT (Pinia + localStorage), testada ponta a ponta com o backend
 
 ### Dia 17
-- [ ] Layout base (header + menu lateral simples)
-- [ ] Store de autenticação (Pinia) e guarda de rotas (redirecionar pro login se não autenticado)
+- [x] Layout base (header + menu lateral simples) com rotas aninhadas (`AppLayout` envolvendo as telas autenticadas)
+- [x] Guarda de rotas (`router.beforeEach`, redireciona pro login se não autenticado, e pro home se já estiver logado); store de autenticação (Pinia) já tinha sido feito no Dia 16
 
 ### Dia 18
 - [ ] Formulário de lançamento manual: dados da nota (fornecedor, número, data de emissão, forma de lançamento)
