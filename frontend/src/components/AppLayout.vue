@@ -7,6 +7,7 @@
 
     const menuOptions = [
         { label: "Início", key: "home"},
+        { label: "Nova compra", key: "purchase-new" },
     ];
 
     function handleMenuSelect(key: string) {

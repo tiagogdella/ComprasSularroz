@@ -3,6 +3,7 @@ import { useAuthStore } from "../stores/auth.store";
 import AppLoyout from "../components/AppLayout.vue";
 import LoginView from "../views/LoginView.vue";
 import HomeView from "../views/HomeView.vue";
+import PurchaseFormView from "../views/PurchaseFormView.vue";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -13,6 +14,7 @@ export const router = createRouter({
             component: AppLoyout,
             children: [
                 { path: "", name: "home", component: HomeView },
+                { path: "purchases/new", name: "purchase-new", component: PurchaseFormView },
             ],
         },
     ],
