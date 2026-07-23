@@ -128,9 +128,9 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Cálculo automático do valor total por item e do total da nota
 
 ### Dia 20
-- [ ] Validações do formulário (campos obrigatórios, valores maiores que zero, pelo menos 1 item)
-- [ ] Integração com `POST /compras`, feedback visual de sucesso/erro
-- [ ] Testar o fluxo manual completo, do zero, ponta a ponta
+- [x] Validações do formulário (campos obrigatórios, valores maiores que zero, pelo menos 1 item)
+- [x] Integração com `POST /compras`, feedback visual de sucesso/erro
+- [x] Testar o fluxo manual completo, do zero, ponta a ponta
 
 ### Dia 21
 - [ ] Tela de listagem/histórico de compras (tabela paginada)
