@@ -123,9 +123,9 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Campo de fornecedor com autocomplete (busca client-side no `n-select filterable`; cadastro rápido via modal quando não existe)
 
 ### Dia 19
-- [ ] Seção de itens da compra: adicionar/remover linhas (produto, quantidade, valor unitário)
-- [ ] Campo de produto com autocomplete (buscar existente ou cadastrar rápido)
-- [ ] Cálculo automático do valor total por item e do total da nota
+- [x] Seção de itens da compra: adicionar/remover linhas (produto, quantidade, valor unitário)
+- [x] Campo de produto com autocomplete (buscar existente ou cadastrar rápido)
+- [x] Cálculo automático do valor total por item e do total da nota
 
 ### Dia 20
 - [ ] Validações do formulário (campos obrigatórios, valores maiores que zero, pelo menos 1 item)
