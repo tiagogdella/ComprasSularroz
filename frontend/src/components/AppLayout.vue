@@ -22,6 +22,11 @@ const menuOptions = [
     label: 'Histórico de Compras',
     icon: 'M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z|M9 12h6M9 16h6',
   },
+  {
+    key: 'product-history',
+    label: 'Consulta por Produto',
+    icon: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14z|M21 21l-4.35-4.35',
+  },
 ];
 
 function handleLogout() {

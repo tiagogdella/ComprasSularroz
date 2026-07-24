@@ -5,6 +5,7 @@ import LoginView from "../views/LoginView.vue";
 import HomeView from "../views/HomeView.vue";
 import PurchaseFormView from "../views/PurchaseFormView.vue";
 import PurchaseHistoryView from "../views/PurchaseHistoryView.vue";
+import ProductHistoryView from "../views/ProductHistoryView.vue";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -17,6 +18,7 @@ export const router = createRouter({
                 { path: "", name: "home", component: HomeView, meta: { title: "Início" } },
                 { path: "purchases/new", name: "purchase-new", component: PurchaseFormView, meta: { title: "Nova Compra" } },
                 { path: "purchases", name: "purchases", component: PurchaseHistoryView, meta: { title: "Histórico de Compras" } },
+                { path: "products", name: "product-history", component: ProductHistoryView, meta: { title: "Consulta por Produto" } },
             ],
         },
     ],

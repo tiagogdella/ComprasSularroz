@@ -22,3 +22,32 @@ export function listProducts(search?: string) {
 export function createProduct(data: CreateProductInput) {
     return http.post<Product>("/products", data).then((res) => res.data);
 }
+
+export interface ProductHistorySupplier {
+    id: number;
+    name: string;
+}
+
+export interface ProductHistoryPurchase {
+    id: number;
+    invoiceNumber: string;
+    issueDate: string;
+    supplier: ProductHistorySupplier;
+}
+
+export interface ProductHistoryItem {
+    id: number;
+    quantity: string;
+    unitPrice: string;
+    totalPrice: string;
+    purchase: ProductHistoryPurchase;
+}
+
+export interface ProductHistoryResponse {
+    product: Product;
+    history: ProductHistoryItem[];
+}
+
+export function getProductHistory(id: number) {
+    return http.get<ProductHistoryResponse>(`/products/${id}/history`).then((res) => res.data);
+}
