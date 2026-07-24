@@ -24,6 +24,7 @@ erDiagram
         int id PK 
         string name
         string login UK
+        string passwordHash
     }
     PURCHASE{
         int id PK
