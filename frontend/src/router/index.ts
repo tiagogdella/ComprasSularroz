@@ -13,8 +13,8 @@ export const router = createRouter({
             path: "/",
             component: AppLoyout,
             children: [
-                { path: "", name: "home", component: HomeView },
-                { path: "purchases/new", name: "purchase-new", component: PurchaseFormView },
+                { path: "", name: "home", component: HomeView, meta: { title: "Início" } },
+                { path: "purchases/new", name: "purchase-new", component: PurchaseFormView, meta: { title: "Nova Compra" } },
             ],
         },
     ],
