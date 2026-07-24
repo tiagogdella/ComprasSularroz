@@ -20,9 +20,9 @@ em JSON escapado dentro de `<script type="__bundler/template">`; decodificar ess
 
 ## Layout base — `AppLayout.vue`
 
-- [ ] Sidebar escura (`#12233F`), 216px, nome do app no topo, itens de menu com ícone outline (stroke, sem preenchimento)
-- [ ] Realce do item ativo: fundo translúcido branco + borda esquerda âmbar (`#C2740A`)
-- [ ] Header branco de 56px: título da página à esquerda, nome do usuário + botão "Sair" à direita
+- [x] Sidebar escura (`#12233F`), 216px, nome do app no topo, itens de menu com ícone outline (stroke, sem preenchimento)
+- [x] Realce do item ativo: fundo translúcido branco + borda esquerda âmbar (`#C2740A`)
+- [x] Header branco de 56px: título da página à esquerda, nome do usuário + botão "Sair" à direita
 
 ## Login — `LoginView.vue`
 
