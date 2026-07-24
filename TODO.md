@@ -133,9 +133,9 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Testar o fluxo manual completo, do zero, ponta a ponta
 
 ### Dia 21
-- [ ] Tela de listagem/histórico de compras (tabela paginada)
-- [ ] Filtros por data, fornecedor, categoria **e produto** (autocomplete de produto nos filtros)
-- [ ] Tela de detalhe da compra, mostrando os itens
+- [x] Tela de listagem/histórico de compras (tabela paginada)
+- [x] Filtros por data, fornecedor, categoria **e produto** (autocomplete de produto nos filtros)
+- [x] Tela de detalhe da compra, mostrando os itens (implementado como drawer lateral, sem sair da listagem)
 
 ---
 

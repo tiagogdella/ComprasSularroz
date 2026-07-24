@@ -43,7 +43,7 @@ em JSON escapado dentro de `<script type="__bundler/template">`; decodificar ess
 
 ## Telas futuras (alinhar ao design quando forem criadas — não é urgente agora)
 
-- [ ] Histórico de Compras: barra de filtros (data de/até, fornecedor, categoria, produto) + tabela com zebra sutil
+- [x] Histórico de Compras: barra de filtros (data de/até, fornecedor, categoria, produto) + tabela (feita direto no design, junto com o Dia 21 do TODO principal)
 - [ ] Consulta por Produto: campo de busca grande + lista de resultados à esquerda + painel de detalhe (métricas + histórico) à direita
 - [ ] Dashboard de Gastos: cards KPI (mês atual, ano atual) + gráfico de barras dos últimos 12 meses + gasto por categoria + top 5 fornecedores
 
