@@ -23,3 +23,15 @@ export function updateProduct(id: number, data: UpdateProductInput) {
 export function deleteProduct(id: number) {
     return prisma.product.delete({ where: { id } });
 }
+
+export function getProductHistory(productId: number) {
+    return prisma.purchaseItem.findMany({
+        where: { productId },
+        include: {
+            purchase: {
+                include: { supplier: true },
+            },
+        },
+        orderBy: { purchase: { issueDate: "desc" } },
+    });
+}

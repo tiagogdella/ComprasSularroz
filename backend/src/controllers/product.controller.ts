@@ -37,3 +37,12 @@ export async function remove(req: Request, res: Response) {
     await productService.deleteProduct(id);
     res.status(204).send();
 }
+
+export async function getHistory(req: Request, res: Response) {
+    const id = Number(req.params.id);
+    const product = await productService.getProductById(id);
+    if(!product) return res.status(404).json({ message: "product not found" });
+
+    const history = await productService.getProductHistory(id);
+    res.json({ product, history });
+}

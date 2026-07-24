@@ -4,6 +4,7 @@ import { authenticate } from "../middlewares/authenticate.js";
 
 export const productRouter = Router();
 
+productRouter.get("/:id/history", productController.getHistory);
 productRouter.get("/", productController.list);
 productRouter.get("/:id", productController.getById);
 productRouter.post("/", authenticate, productController.create);
