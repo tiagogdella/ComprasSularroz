@@ -144,8 +144,8 @@ Marque cada item com `[x]` conforme for concluindo.
 > Uso principal: buscar uma peça e ver rapidamente quando foi comprada, com quem e a especificação. Análise de gastos é secundária, mas vale ter as duas.
 
 ### Dia 22
-- [ ] Endpoint backend `GET /produtos/:id/historico`: todas as ocorrências de compra daquele produto (data, fornecedor, valor unitário, quantidade, especificação, nota vinculada)
-- [ ] Tela de consulta por produto: buscar a peça (autocomplete) e ver a lista/linha do tempo de todas as vezes que foi comprada, com fornecedor, data e valor — este é o uso do dia a dia, deixar rápido e direto
+- [x] Endpoint backend `GET /products/:id/history`: todas as ocorrências de compra daquele produto (data, fornecedor, valor unitário, quantidade, especificação, nota vinculada), testado via curl
+- [x] Tela de consulta por produto: buscar a peça (autocomplete) e ver a lista/linha do tempo de todas as vezes que foi comprada, com fornecedor, data e valor — este é o uso do dia a dia, deixar rápido e direto
 
 ### Dia 23
 - [ ] Endpoint backend: total de gastos agregado por período (mês/ano)
