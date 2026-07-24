@@ -17,7 +17,11 @@ const menuOptions = [
     label: 'Nova Compra',
     icon: 'M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z|M9 13h6M12 10v6',
   },
-  // Histórico de Compras entra aqui no Dia 21, junto com a rota
+  {
+    key: 'purchases',
+    label: 'Histórico de Compras',
+    icon: 'M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z|M9 12h6M9 16h6',
+  },
 ];
 
 function handleLogout() {

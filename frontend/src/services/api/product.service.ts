@@ -15,8 +15,8 @@ export interface CreateProductInput {
     specification: string,
 }
 
-export function listProducts() {
-    return http.get<Product[]>("/products").then((res) => res.data);
+export function listProducts(search?: string) {
+    return http.get<Product[]>("/products", { params: search ? { search } : undefined }).then((res) => res.data);
 }
 
 export function createProduct(data: CreateProductInput) {
