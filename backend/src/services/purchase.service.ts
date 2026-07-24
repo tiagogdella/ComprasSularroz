@@ -5,18 +5,26 @@ export async function listPurchases(filters: ListPurchasesQuery) {
     const page = filters.page ?? 1;
     const pageSize = filters.pageSize ?? 20;
 
+    const endDate = filters.endDate
+        ? new Date(filters.endDate.getTime() + 24 * 60 * 60 * 1000 - 1)
+        : undefined;
+
+    const itemConditions: Record<string, unknown>[] = [];
+    if (filters.category) itemConditions.push({ product: { category: filters.category } });
+    if (filters.productId) itemConditions.push({ productId: filters.productId });
+
     const where = {
         ...(filters.supplierId ? { supplierId: filters.supplierId } : {}),
-        ...(filters.startDate || filters.endDate
+        ...(filters.startDate || endDate
             ? {
                   issueDate: {
                       ...(filters.startDate ? { gte: filters.startDate } : {}),
-                      ...(filters.endDate ? { lte: filters.endDate } : {}),
+                      ...(endDate ? { lte: endDate } : {}),
                   },
               }
             : {}),
-        ...(filters.category
-            ? { items: { some: { product: { category: filters.category } } } }
+        ...(itemConditions.length
+            ? { items: { some: itemConditions.length > 1 ? { AND: itemConditions } : itemConditions[0] } }
             : {}),
     };
 
@@ -26,7 +34,7 @@ export async function listPurchases(filters: ListPurchasesQuery) {
             orderBy: { issueDate: "desc" },
             skip: (page - 1) * pageSize,
             take: pageSize,
-            include: { supplier: true },
+            include: { supplier: true, user: true, items: { include: { product: true } } },
         }),
         prisma.purchase.count({ where }),
     ]);

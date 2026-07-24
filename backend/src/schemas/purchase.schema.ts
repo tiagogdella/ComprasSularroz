@@ -25,6 +25,7 @@ export const listPurchasesQuerySchema = z.object({
     endDate: z.coerce.date().optional(),
     supplierId: z.coerce.number().int().positive().optional(),
     category: z.string().min(1).optional(),
+    productId: z.coerce.number().int().positive().optional(),
 });
 
 export type ListPurchasesQuery = z.infer<typeof listPurchasesQuerySchema>;
