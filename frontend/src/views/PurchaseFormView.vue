@@ -121,6 +121,11 @@ function validateForm(): string | null {
     return null;
 }
 
+function toDateOnlyIso(ms: number): string {
+    const picked = new Date(ms);
+    return new Date(Date.UTC(picked.getFullYear(), picked.getMonth(), picked.getDate())).toISOString();
+}
+
 async function handleSubmit() {
     const error = validateForm();
     if (error) {
@@ -132,7 +137,7 @@ async function handleSubmit() {
     try {
         await createPurchase({
             invoiceNumber: invoiceNumber.value,
-            issueDate: new Date(issueDate.value!).toISOString(),
+            issueDate: toDateOnlyIso(issueDate.value!),
             entryMethod: entryMethod.value,
             supplierId: supplierId.value!,
             userId: authStore.user!.id,
