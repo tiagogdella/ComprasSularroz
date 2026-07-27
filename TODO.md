@@ -153,8 +153,8 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Tela de dashboard: cards com totais (mês atual, ano atual)
 
 ### Dia 24
-- [ ] Gráfico de gastos por período e por categoria/fornecedor (top 5) — biblioteca leve, ex: Chart.js
-- [ ] Polish visual e revisão geral, com foco em deixar a busca por produto (Dia 22) rápida e visível no menu principal
+- [x] Gráfico de gastos por período e por categoria/fornecedor (top 5) — implementado com barras em CSS puro, sem biblioteca externa
+- [x] Polish visual e revisão geral, com foco em deixar a busca por produto (Dia 22) rápida e visível no menu principal
 
 **>>> Neste ponto o MVP com lançamento manual está funcional e é o marco principal do projeto. <<<**
 **Tudo abaixo é a camada de leitor de código de barras + SEFAZ-SC, tratada como bônus.**
