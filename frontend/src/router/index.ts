@@ -15,7 +15,7 @@ export const router = createRouter({
             path: "/",
             component: AppLoyout,
             children: [
-                { path: "", name: "home", component: HomeView, meta: { title: "Início" } },
+                { path: "", name: "home", component: HomeView, meta: { title: "Dashboard" } },
                 { path: "purchases/new", name: "purchase-new", component: PurchaseFormView, meta: { title: "Nova Compra" } },
                 { path: "purchases", name: "purchases", component: PurchaseHistoryView, meta: { title: "Histórico de Compras" } },
                 { path: "products", name: "product-history", component: ProductHistoryView, meta: { title: "Consulta por Produto" } },

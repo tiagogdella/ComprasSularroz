@@ -7,6 +7,7 @@ import { productRouter } from "./routes/product.routes.js";
 import { purchaseRouter } from "./routes/purchase.routes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { authRouter } from "./routes/auth.routes.js";
+import { statsRouter } from "./routes/stats.routes.js";
 
 dotenv.config({ path: "../.env" });
 
@@ -20,6 +21,7 @@ app.use("/suppliers", supplierRouter);
 app.use("/products", productRouter);
 app.use("/purchases", purchaseRouter);
 app.use("/auth", authRouter);
+app.use("/stats", statsRouter);
 
 
 app.get("/health", (_req, res) =>{
