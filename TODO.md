@@ -148,9 +148,9 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Tela de consulta por produto: buscar a peça (autocomplete) e ver a lista/linha do tempo de todas as vezes que foi comprada, com fornecedor, data e valor — este é o uso do dia a dia, deixar rápido e direto
 
 ### Dia 23
-- [ ] Endpoint backend: total de gastos agregado por período (mês/ano)
-- [ ] Endpoint backend: total de gastos agregado por categoria e por fornecedor
-- [ ] Tela de dashboard: cards com totais (mês atual, ano atual)
+- [x] Endpoint backend: total de gastos agregado por período (mês/ano)
+- [x] Endpoint backend: total de gastos agregado por categoria e por fornecedor
+- [x] Tela de dashboard: cards com totais (mês atual, ano atual)
 
 ### Dia 24
 - [ ] Gráfico de gastos por período e por categoria/fornecedor (top 5) — biblioteca leve, ex: Chart.js
