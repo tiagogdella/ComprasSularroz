@@ -211,7 +211,7 @@ Marque cada item com `[x]` conforme for concluindo.
 ## Semana 10 — Deploy final e documentação
 
 ### Dia 33
-- [ ] Dockerfile do backend (build multi-stage)
+- [x] Dockerfile do backend (build multi-stage)
 - [ ] Dockerfile do frontend (build + servir estático via nginx)
 
 ### Dia 34

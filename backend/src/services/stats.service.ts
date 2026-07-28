@@ -16,7 +16,8 @@ export async function getSpendingByPeriod(year: number) {
 
     const totals = Array.from({ length: 12 }, () => 0);
     for (const purchase of purchases) {
-        totals[purchase.issueDate.getUTCMonth()] += Number(purchase.totalAmount);
+        const month = purchase.issueDate.getUTCMonth();
+        totals[month] = (totals[month] ?? 0) + Number(purchase.totalAmount);
     }
 
     return totals.map((total, index) => ({ month: index + 1, total }));  
