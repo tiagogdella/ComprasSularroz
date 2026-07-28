@@ -212,7 +212,7 @@ Marque cada item com `[x]` conforme for concluindo.
 
 ### Dia 33
 - [x] Dockerfile do backend (build multi-stage)
-- [ ] Dockerfile do frontend (build + servir estático via nginx)
+- [x] Dockerfile do frontend (build + servir estático via nginx)
 
 ### Dia 34
 - [ ] Completar o `docker-compose.yml` final (postgres + backend + frontend/nginx), com volumes e healthchecks
