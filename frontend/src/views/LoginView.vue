@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {ref} from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useMessage } from "naive-ui";
 import { useAuthStore } from "../stores/auth.store";
 
@@ -10,7 +10,14 @@ const loading = ref(false);
 
 const authStore = useAuthStore();
 const router = useRouter();
+const route = useRoute();
 const message = useMessage();
+
+onMounted(() => {
+    if (route.query.expired) {
+        message.warning("Sua sessão expirou. Faça login novamente.");
+    }
+})
 
 async function handleSubmit() {
     loading.value = true;

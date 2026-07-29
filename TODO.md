@@ -220,7 +220,7 @@ Marque cada item com `[x]` conforme for concluindo.
 
 ### Dia 35
 - [ ] Testar o deploy completo do zero em uma pasta limpa (simulando o servidor)
-- [ ] Rodar migrations + seed nesse ambiente de teste "de produção"
+- [x] Rodar migrations + seed nesse ambiente de teste "de produção"
 
 ### Dia 36
 - [ ] Escrever `README.md`: requisitos, passo a passo de deploy no Ubuntu Server, comandos de backup/restore do Postgres

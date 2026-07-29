@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "../stores/auth.store";
+import { isTokenExpired } from "../utils/jwt.ts";
 import AppLoyout from "../components/AppLayout.vue";
 import LoginView from "../views/LoginView.vue";
 import HomeView from "../views/HomeView.vue";
@@ -26,6 +27,13 @@ export const router = createRouter({
 
 router.beforeEach((to) => {
     const authStore = useAuthStore();
+
+    if (authStore.token && isTokenExpired(authStore.token)) {
+        authStore.logout();
+        if (to.name !== "login") {
+            return { name: "login", query: { expired: "1" } };
+        }
+    }
 
     if ( to.name !== "login" && !authStore.isAuthenticated) {
         return { name: "login" };
