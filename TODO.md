@@ -1,7 +1,7 @@
 # TODO — Sistema de Controle de Compras de Manutenção
 
 Plano de trabalho dividido em fases semanais, com tarefas de ~1-2h cada, em ordem de execução.
-Prioridade: lançamento manual funcionando bem primeiro (MVP), leitor de código de barras + SEFAZ-SC depois.
+Prioridade: lançamento manual funcionando bem primeiro (MVP), leitor de código de barras + consulta via certificado digital depois.
 
 Marque cada item com `[x]` conforme for concluindo.
 
@@ -157,7 +157,7 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Polish visual e revisão geral, com foco em deixar a busca por produto (Dia 22) rápida e visível no menu principal
 
 **>>> Neste ponto o MVP com lançamento manual está funcional e é o marco principal do projeto. <<<**
-**Tudo abaixo é a camada de leitor de código de barras + SEFAZ-SC, tratada como bônus.**
+**Tudo abaixo é a camada de leitor de código de barras + consulta via certificado digital, tratada como bônus.**
 
 ---
 
@@ -174,32 +174,37 @@ Marque cada item com `[x]` conforme for concluindo.
 
 ---
 
-## Semana 8 — Integração com consulta pública SEFAZ-SC
+## Semana 8 — Integração via certificado digital (NFe Distribuição DFe)
+
+> Mudança de plano (decidida em 29/07/2026): em vez de raspar o HTML da consulta pública da SEFAZ-SC, usar o webservice oficial **NFe Distribuição DFe**, autenticado via mTLS com o certificado digital (e-CNPJ) da empresa. É um webservice nacional (não por UF) e retorna XML estruturado e assinado da nota em vez de HTML pra parsear — elimina o risco de captcha/instabilidade da consulta pública e a necessidade de tratar cada UF separadamente. Depende de confirmar com o contador se o certificado é A1 (arquivo) ou A3 (token físico) — se for A3, esta semana precisa ser replanejada (exigiria um agente rodando na máquina com o token).
 
 ### Dia 27
-- [ ] Pesquisar a URL pública de consulta de NFC-e por chave de acesso da SEFAZ-SC e o formato do HTML retornado
-- [ ] Criar `POST /notas/consulta-sefaz` no backend: recebe a chave, faz o fetch (só SC por enquanto)
+- [ ] Confirmar com o contador: certificado é A1 (`.pfx`/`.p12`) ou A3 (token físico)? É e-CNPJ da empresa (não e-CPF pessoal)? Qual a validade?
+- [ ] Se A1: combinar uma forma segura de repassar o arquivo `.pfx` + senha (nunca por WhatsApp/e-mail em texto plano) e guardar fora do git (caminho do arquivo + senha via `.env`, nunca commitado)
+- [ ] Configurar um `https.Agent` no backend com `pfx` + `passphrase` e testar a conexão mTLS contra o webservice de Status do Serviço da SEFAZ (endpoint simples, sem lógica de negócio) só pra validar que o certificado funciona
 
 ### Dia 28
-- [ ] Implementar o parser do HTML de retorno (ex: `cheerio`) pra extrair itens/valores/fornecedor quando disponíveis
-- [ ] Definir a estrutura de retorno da API deixando claro o que foi encontrado automaticamente vs. o que precisa ser preenchido manualmente
+- [ ] Montar o XML de consulta (`consChNFe` com a chave de acesso) pro webservice nacional de Distribuição DFe, em ambiente de homologação primeiro
+- [ ] Criar `POST /notas/consulta-sefaz` no backend: recebe a chave, faz a consulta autenticada, retorna erro claro se o certificado estiver inválido/expirado
+- [ ] Tratar a resposta: descompactar o `docZip` (base64 + gzip) pra obter o XML puro da nota e parsear (ex: `fast-xml-parser`) pra extrair emitente, itens e valores
 
 ### Dia 29
+- [ ] Definir a estrutura de retorno da API deixando claro o que foi encontrado automaticamente vs. o que precisa ser preenchido manualmente
 - [ ] Integrar no frontend: ao ler o código, chamar a consulta e pré-preencher o formulário de lançamento manual
-- [ ] Sinalizar visualmente o que veio da SEFAZ vs. o que precisa de revisão/complemento manual
-- [ ] Garantir que nada é salvo sem confirmação explícita do usuário no formulário
+- [ ] Auto-cadastrar fornecedor (por `taxId`/CNPJ) e produtos que não existirem ainda, reaproveitando o padrão de `supplierPicker.create`/`productPicker.create` já usado no lançamento manual
+- [ ] Sinalizar visualmente o que veio da SEFAZ vs. o que precisa de revisão/complemento manual, garantindo que nada é salvo sem confirmação explícita do usuário no formulário
 
 ---
 
 ## Semana 9 — Tratamento de erros e polish
 
 ### Dia 30
-- [ ] Tratar "nota não encontrada" na SEFAZ (mensagem clara, cai pro formulário manual vazio)
-- [ ] Tratar chave de UF diferente de SC (mensagem "consulta automática não suportada para esta UF ainda", segue manual)
+- [ ] Tratar "nota não encontrada" (mensagem clara, cai pro formulário manual vazio)
+- [ ] Tratar erro de certificado (expirado, senha errada, indisponível) com mensagem clara, sem travar o app, cai pro formulário manual
 - [ ] Tratar timeout/erro de rede na consulta (não travar a tela, permitir seguir manualmente)
 
 ### Dia 31
-- [ ] Estruturar o código da consulta SEFAZ de forma isolada por UF (ex: um "strategy" por UF), preparando pra adicionar outros estados no futuro sem mexer no restante do sistema
+- [ ] Trocar do ambiente de homologação pra produção na consulta à SEFAZ, validando com uma chave de acesso real
 - [ ] Revisão geral de UX do fluxo de escaneamento
 
 ### Dia 32
@@ -236,7 +241,6 @@ Marque cada item com `[x]` conforme for concluindo.
 ## Backlog (não fazer agora — só para não esquecer)
 
 - [ ] OCR de foto da nota fiscal
-- [ ] Suporte à consulta pública de NFC-e em outras UFs além de SC
 - [ ] Notificações (ex: alerta de gasto acima do esperado numa categoria)
 - [ ] Exportação de relatórios (PDF/Excel)
 - [ ] Múltiplos níveis de permissão de usuário (hoje é lista curta simples)
@@ -252,3 +256,4 @@ Marque cada item com `[x]` conforme for concluindo.
 
 - **UI Kit do frontend**: ✅ decidido no Dia 16 — **Naive UI**.
 - **Express vs Fastify**: ✅ decidido no Dia 2 — **Express**.
+- **Consulta de nota fiscal (leitor de código de barras)**: ✅ decidido em 29/07/2026 — usar o webservice oficial **NFe Distribuição DFe** autenticado com o certificado digital (e-CNPJ) da empresa via o contador, em vez de raspar o HTML da consulta pública da SEFAZ-SC. ⚠️ Pendente: confirmar com o contador se o certificado é A1 (arquivo) ou A3 (token físico) — isso é bloqueante pro Dia 27 da Semana 8, e se for A3 o plano precisa ser revisto (exigiria um agente rodando na máquina com o token, ao invés de consulta centralizada no backend).
