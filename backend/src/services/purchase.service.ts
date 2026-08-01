@@ -60,15 +60,22 @@ function round2(value: number) {
     return Math.round(value * 100) / 100;
 }
 
-export function createPurchase(data: CreatePurchaseInput) {
-    const items = data.items.map((item) => ({
+export function buildPurchaseItems(items: CreatePurchaseInput["items"]) {
+    const mappedItems = items.map((item) => ({
         productId: item.productId,
         quantity: item.quantity,
         unitPrice: item.unitPrice,
         totalPrice: round2(item.quantity * item.unitPrice),
-    }))
-    
-    const totalAmount = round2(items.reduce((sum, item) => sum + item.totalPrice, 0));
+    }));
+
+    const totalAmount = round2(mappedItems.reduce((sum, item) => sum + item.totalPrice, 0));
+
+    return { items: mappedItems, totalAmount };
+}
+
+export function createPurchase(data: CreatePurchaseInput) {
+
+    const { items, totalAmount } = buildPurchaseItems(data.items);
 
     return prisma.purchase.create({
         data: {
@@ -88,15 +95,8 @@ export function createPurchase(data: CreatePurchaseInput) {
 }
 
 export function updatePurchase(id: number, data: CreatePurchaseInput) {
-    const items = data.items.map((item) => ({
-        productId: item.productId,
-        quantity: item.quantity,
-        unitPrice: item.unitPrice,
-        totalPrice: round2(item.quantity * item.unitPrice),
-    }));
-
-    const totalAmount = round2(items.reduce((sum, item) => sum + item.totalPrice, 0));
-
+    const { items, totalAmount } = buildPurchaseItems(data.items);
+    
     return prisma.purchase.update({
         where: { id },
         data: {
