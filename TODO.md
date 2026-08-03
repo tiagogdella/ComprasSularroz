@@ -196,6 +196,23 @@ Marque cada item com `[x]` conforme for concluindo.
 
 ---
 
+## Aba "Consultar XML" (necessidade nova, decidida em 03/08/2026)
+
+> Uso: o contador da empresa (funcionário interno, já tem login no sistema — não precisa de nível
+> de acesso novo) às vezes precisa baixar o XML de alguma nota pontual pra questões contábeis/fiscais.
+> Diferente do fluxo de lançamento de compra: aqui é só busca por **chave de acesso específica** e
+> cobre **qualquer nota do CNPJ** (não só as que já foram lançadas como compra no sistema). Reaproveita
+> a mesma consulta+manifestação que já validamos no `API_Sefaz` — só devolve o XML pra download em vez
+> de pré-preencher formulário.
+
+- [ ] Endpoint no `API_Sefaz` que devolve o XML completo (`nfeProc`) pronto pra download (ver `API_Sefaz/TODO.md`)
+- [ ] Nova rota/tela `ConsultarXmlView.vue`: campo pra colar a chave de 44 dígitos + botão de busca
+- [ ] Botão "Baixar XML" no resultado (gera o arquivo `.xml` no navegador a partir da resposta)
+- [ ] Tratar os mesmos casos de erro já mapeados (nota não encontrada, bloqueio de 1h da SEFAZ, certificado indisponível) com mensagem clara na tela
+- [ ] Item novo no menu lateral, visível pros usuários internos (mesma autenticação já existente, sem nível de acesso novo)
+
+---
+
 ## Semana 9 — Tratamento de erros e polish
 
 ### Dia 30
