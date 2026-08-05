@@ -12,7 +12,7 @@ export interface CreateProductInput {
     name: string,
     category: string,
     unit: string,
-    specification: string,
+    specification?: string,
 }
 
 export function listProducts(search?: string) {

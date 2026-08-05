@@ -6,6 +6,8 @@ import { createProduct, listProducts, type Product, type CreateProductInput } fr
 import { useEntityPicker } from "../composables/useEntityPicker";
 import { useAuthStore } from "../stores/auth.store";
 import { createPurchase } from "../services/api/purchase.service";
+import { fetchNfeData } from "../services/api/xml.service";
+import AccessKeyScanner from "../components/AccessKeyScanner.vue";
 
 const message = useMessage();
 
@@ -77,6 +79,45 @@ async function handleCreateSupplier() {
         message.success("Fornecedor cadastrado");
     } catch {
         message.error("Erro ao cadastrar fornecedor");
+    }
+}
+
+async function handleScanned(accessKey: string) {
+    try {
+        const data = await fetchNfeData(accessKey);
+
+        let supplier = supplierPicker.list.find((s: any) => s.taxId === data.supplierCnpj);
+        if (!supplier) {
+            supplier = await supplierPicker.create({ name: data.supplierName, taxId: data.supplierCnpj });
+        }
+        supplierId.value = supplier.id;
+
+        invoiceNumber.value = data.invoiceNumber;
+        issueDate.value = new Date(data.issueDate).getTime();
+        entryMethod.value = "SCANNED";
+
+        items.value = [];
+        for (const nfeItem of data.items) {
+            let product = productPicker.list.find(
+                (p: any) => p.name.toLowerCase() === nfeItem.description.toUpperCase()
+            );
+            if (!product) {
+                product = await productPicker.create({
+                    name: nfeItem.description,
+                    category: "Não classificado",
+                    unit: nfeItem.unit,
+                });
+            }
+            items.value.push({
+                productId: product.id,
+                quantity: nfeItem.quantity,
+                unitPrice: nfeItem.unitPrice,
+            });
+        }
+
+        message.success("Nota lida — confira os dados antes de lançar");
+    } catch {
+        message.error("Erro ao consultar a nota fiscal");
     }
 }
 
@@ -164,6 +205,8 @@ async function handleSubmit() {
 
 <template>
     <n-card title="Nova compra">
+        <AccessKeyScanner @scanned="handleScanned" />
+        <n-divider />
         <n-form>
             <n-form-item label="Fornecedor">
                 <n-select
