@@ -205,7 +205,8 @@ Marque cada item com `[x]` conforme for concluindo.
 > a mesma consulta+manifestação que já validamos no `API_Sefaz` — só devolve o XML pra download em vez
 > de pré-preencher formulário.
 
-- [ ] Endpoint no `API_Sefaz` que devolve o XML completo (`nfeProc`) pronto pra download (ver `API_Sefaz/TODO.md`)
+- [x] Endpoint no `API_Sefaz` que devolve o XML completo (`nfeProc`) pronto pra download — `POST /consultas/xml` (feito)
+- [x] Backend do monolito: `GET /sefaz/xml/:accessKey` (autenticado) chama o `API_Sefaz` e devolve o XML — testado ponta a ponta com nota real (05/08/2026)
 - [ ] Nova rota/tela `ConsultarXmlView.vue`: campo pra colar a chave de 44 dígitos + botão de busca
 - [ ] Botão "Baixar XML" no resultado (gera o arquivo `.xml` no navegador a partir da resposta)
 - [ ] Tratar os mesmos casos de erro já mapeados (nota não encontrada, bloqueio de 1h da SEFAZ, certificado indisponível) com mensagem clara na tela
