@@ -207,10 +207,12 @@ Marque cada item com `[x]` conforme for concluindo.
 
 - [x] Endpoint no `API_Sefaz` que devolve o XML completo (`nfeProc`) pronto pra download — `POST /consultas/xml` (feito)
 - [x] Backend do monolito: `GET /sefaz/xml/:accessKey` (autenticado) chama o `API_Sefaz` e devolve o XML — testado ponta a ponta com nota real (05/08/2026)
-- [ ] Nova rota/tela `ConsultarXmlView.vue`: campo pra colar a chave de 44 dígitos + botão de busca
-- [ ] Botão "Baixar XML" no resultado (gera o arquivo `.xml` no navegador a partir da resposta)
-- [ ] Tratar os mesmos casos de erro já mapeados (nota não encontrada, bloqueio de 1h da SEFAZ, certificado indisponível) com mensagem clara na tela
-- [ ] Item novo no menu lateral, visível pros usuários internos (mesma autenticação já existente, sem nível de acesso novo)
+- [x] Tela `ConsultarXmlView.vue`: campo de chave + botão único "Baixar XML" (sem passo de busca separado — o endpoint já devolve o XML direto)
+- [x] Download do `.xml` no navegador (blob + link temporário) — feito
+- [x] Erros da SEFAZ (não encontrada, bloqueio, etc.) aparecem via `message.error` — inclui tratamento especial pra ler a mensagem de erro quando a resposta é `blob`
+- [x] Item no menu lateral (`AppLayout.vue`), mesma autenticação já existente
+
+**✅ Feature completa, testada de ponta a ponta em 05/08/2026** (frontend → backend → `API_Sefaz` → SEFAZ → download).
 
 ---
 
