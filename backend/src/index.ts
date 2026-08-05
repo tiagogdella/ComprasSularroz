@@ -8,6 +8,7 @@ import { purchaseRouter } from "./routes/purchase.routes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { authRouter } from "./routes/auth.routes.js";
 import { statsRouter } from "./routes/stats.routes.js";
+import { sefazRouter } from "./routes/sefaz.routes.ts";
 
 dotenv.config({ path: "../.env" });
 
@@ -22,6 +23,8 @@ app.use("/products", productRouter);
 app.use("/purchases", purchaseRouter);
 app.use("/auth", authRouter);
 app.use("/stats", statsRouter);
+app.use("/sefaz", sefazRouter);
+
 
 
 app.get("/health", (_req, res) =>{
