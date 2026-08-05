@@ -14,3 +14,13 @@ export async function getXml(req: Request, res: Response) {
     res.setHeader("Content-Disposition", `attachment; filename="${parsed.data.accessKey}.xml"`);
     res.send(xml);
 }
+
+export async function getNfeData(req: Request, res: Response) {
+    const parsed = accessKeyParamSchema.safeParse(req.params);
+    if (!parsed.success) {
+        return res.status(400).json({ message: parsed.error.message });
+    }
+
+    const data = await sefazService.fetchNfeData(parsed.data.accessKey);
+    res.json(data);
+}
