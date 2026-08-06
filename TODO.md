@@ -216,6 +216,30 @@ Marque cada item com `[x]` conforme for concluindo.
 
 ---
 
+## Categorização automática de produto por IA (decidido em 06/08/2026)
+
+> Contexto: quando o scan de nota cria um produto novo (não achou por nome), hoje cai sempre em
+> categoria "Não classificado". A ideia é usar uma API de IA (Google Gemini, tier gratuito — sem
+> mensalidade, sem depender de máquina forte) pra sugerir uma categoria a partir da descrição do
+> item (`xProd`), só na hora de criar produto novo — não em toda compra.
+
+- [x] Conta + API key no [Google AI Studio](https://aistudio.google.com/) (tier gratuito)
+- [x] `GEMINI_API_KEY` no `.env`/`.env.example` do backend
+- [ ] `backend/src/services/ai.service.ts` — chamada à API do Gemini (`generateContent`), prompt pedindo só o nome da categoria, sem explicação
+- [ ] `backend/src/controllers/ai.controller.ts` + `backend/src/routes/ai.routes.ts` — `POST /ai/suggest-category`, autenticado, com **fallback silencioso** pra "Não classificado" se a IA falhar (não pode travar o lançamento de compra)
+- [ ] Registrar a rota em `backend/src/index.ts`
+- [ ] `frontend/src/services/api/ai.service.ts` — chama o endpoint novo
+- [ ] Ligar no `handleScanned` do `PurchaseFormView.vue`: ao criar produto novo durante o scan, chama a sugestão de categoria antes de `productPicker.create`
+- [ ] Testar com nota real que tenha produto novo (não cadastrado ainda) e conferir se a categoria sugerida faz sentido
+- [ ] Confirmar visualmente que o uso real fica bem abaixo do limite do tier gratuito do Gemini (baixo volume esperado — só produtos novos)
+
+**Notas de decisão:**
+- **Por que Gemini**: tier gratuito de verdade (não só crédito de teste que expira), sem mensalidade, roda na nuvem (não precisa de máquina forte local).
+- **Por que não MCP aqui**: MCP server é outra coisa — serve pra expor dados/ações do sistema pra um assistente de IA *usar* (ex: perguntar gastos pelo Claude Desktop), não pra o backend chamar uma IA como utilitário. É um projeto separado, ainda a planejar.
+- **Por que fallback silencioso**: a sugestão de categoria é um "extra" — se a IA cair ou o rate limit estourar, o scan continua funcionando normal, só sem a sugestão.
+
+---
+
 ## Semana 9 — Tratamento de erros e polish
 
 ### Dia 30
