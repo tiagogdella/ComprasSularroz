@@ -223,20 +223,42 @@ Marque cada item com `[x]` conforme for concluindo.
 > mensalidade, sem depender de máquina forte) pra sugerir uma categoria a partir da descrição do
 > item (`xProd`), só na hora de criar produto novo — não em toda compra.
 
+### Categoria do produto
+
 - [x] Conta + API key no [Google AI Studio](https://aistudio.google.com/) (tier gratuito)
 - [x] `GEMINI_API_KEY` no `.env`/`.env.example` do backend
-- [ ] `backend/src/services/ai.service.ts` — chamada à API do Gemini (`generateContent`), prompt pedindo só o nome da categoria, sem explicação
+- [x] `backend/src/services/ai.service.ts` — `suggestCategory(description)`, chamada à API do Gemini (`generateContent`), prompt pedindo só o nome da categoria, sem explicação
 - [ ] `backend/src/controllers/ai.controller.ts` + `backend/src/routes/ai.routes.ts` — `POST /ai/suggest-category`, autenticado, com **fallback silencioso** pra "Não classificado" se a IA falhar (não pode travar o lançamento de compra)
 - [ ] Registrar a rota em `backend/src/index.ts`
 - [ ] `frontend/src/services/api/ai.service.ts` — chama o endpoint novo
 - [ ] Ligar no `handleScanned` do `PurchaseFormView.vue`: ao criar produto novo durante o scan, chama a sugestão de categoria antes de `productPicker.create`
 - [ ] Testar com nota real que tenha produto novo (não cadastrado ainda) e conferir se a categoria sugerida faz sentido
-- [ ] Confirmar visualmente que o uso real fica bem abaixo do limite do tier gratuito do Gemini (baixo volume esperado — só produtos novos)
+
+### Alerta de preço (evoluído em 06/08/2026 — ideia melhorada, 3 fontes de confiança)
+
+> Ideia original era pedir preço de referência direto pra IA — **descartada**: LLM não tem
+> conhecimento confiável de preço atual de mercado (é fato numérico específico, não "julgamento"
+> como categoria — risco real de alucinação). Desenho final usa a IA só pra **interpretar dado
+> real**, nunca pra "lembrar" preço de cabeça:
+>
+> 1. **Histórico de compra do próprio produto** (mais confiável — o que a empresa já pagou antes)
+> 2. **Busca real na API pública do Mercado Livre** (produto novo, sem histórico — preço real de
+>    anúncio, sem IA nenhuma nessa parte)
+> 3. **IA gera só o relatório em texto** comparando o preço pago com os preços reais encontrados
+>    (ex: "está ~15% acima da média de mercado") — ela recebe os números prontos, não inventa nada
+
+- [ ] `backend/src/services/mercadolivre.service.ts` — busca em `api.mercadolibre.com/sites/MLB/search?q=...` (pública, gratuita, sem cadastro), devolve lista de preços reais encontrados
+- [ ] `backend/src/services/purchase.service.ts` (ou novo helper) — buscar preço médio/último pago pro mesmo `productId`, reaproveitando dado que já existe (mesma info da tela "Consulta por Produto")
+- [ ] `ai.service.ts` — nova função `generatePriceReport(description, paidPrice, referencePrices)`: manda os preços reais (histórico OU Mercado Livre) + o preço pago, pede um resumo curto (1-2 frases) dizendo se está na média/alto/baixo
+- [ ] Endpoint novo (`POST /ai/price-report` ou dentro do fluxo de scan) — decide a fonte: se tem histórico do produto usa ele, senão busca no Mercado Livre, senão não mostra alerta nenhum
+- [ ] Frontend: mostra o alerta na tela de revisão do formulário (depois do scan), claramente marcado como "estimativa" quando vier do Mercado Livre — nunca bloqueia o lançamento da compra, é só informativo
+- [ ] Testar com produto já comprado antes (deve usar histórico) e produto novo (deve usar Mercado Livre)
 
 **Notas de decisão:**
 - **Por que Gemini**: tier gratuito de verdade (não só crédito de teste que expira), sem mensalidade, roda na nuvem (não precisa de máquina forte local).
 - **Por que não MCP aqui**: MCP server é outra coisa — serve pra expor dados/ações do sistema pra um assistente de IA *usar* (ex: perguntar gastos pelo Claude Desktop), não pra o backend chamar uma IA como utilitário. É um projeto separado, ainda a planejar.
-- **Por que fallback silencioso**: a sugestão de categoria é um "extra" — se a IA cair ou o rate limit estourar, o scan continua funcionando normal, só sem a sugestão.
+- **Por que fallback silencioso**: a sugestão de categoria e o alerta de preço são "extras" — se a IA ou o Mercado Livre falharem, o scan continua funcionando normal, só sem a sugestão/alerta.
+- **Por que não pedir preço direto pra IA**: risco de alucinação em fato numérico específico — a IA só processa números reais que a gente já buscou, nunca "lembra" de cabeça.
 
 ---
 
