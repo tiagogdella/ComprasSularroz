@@ -35,3 +35,14 @@ export function getProductHistory(productId: number) {
         orderBy: { purchase: { issueDate: "desc" } },
     });
 }
+
+export async function getRecentUnitPrices(productId: number, limit = 5): Promise<number[]> {
+    const items = await prisma.purchaseItem.findMany({
+        where: { productId },
+        select: { unitPrice: true },
+        orderBy: { purchase: { issueDate: "desc" } },
+        take: limit,
+    });
+
+    return items.map((item) => Number(item.unitPrice));
+}

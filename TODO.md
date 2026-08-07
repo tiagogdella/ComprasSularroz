@@ -228,8 +228,8 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Conta + API key no [Google AI Studio](https://aistudio.google.com/) (tier gratuito)
 - [x] `GEMINI_API_KEY` no `.env`/`.env.example` do backend
 - [x] `backend/src/services/ai.service.ts` — `suggestCategory(description)`, chamada à API do Gemini (`generateContent`), prompt pedindo só o nome da categoria, sem explicação
-- [ ] `backend/src/controllers/ai.controller.ts` + `backend/src/routes/ai.routes.ts` — `POST /ai/suggest-category`, autenticado, com **fallback silencioso** pra "Não classificado" se a IA falhar (não pode travar o lançamento de compra)
-- [ ] Registrar a rota em `backend/src/index.ts`
+- [x] `backend/src/controllers/ai.controller.ts` + `backend/src/routes/ai.routes.ts` — `POST /ai/suggest-category`, autenticado, com **fallback silencioso** pra "Não classificado" se a IA falhar (não pode travar o lançamento de compra)
+- [x] Registrar a rota em `backend/src/index.ts`
 - [ ] `frontend/src/services/api/ai.service.ts` — chama o endpoint novo
 - [ ] Ligar no `handleScanned` do `PurchaseFormView.vue`: ao criar produto novo durante o scan, chama a sugestão de categoria antes de `productPicker.create`
 - [ ] Testar com nota real que tenha produto novo (não cadastrado ainda) e conferir se a categoria sugerida faz sentido
@@ -258,18 +258,23 @@ Marque cada item com `[x]` conforme for concluindo.
 > Só o que já é salvo hoje (produto/quantidade/valor pago) continua sendo salvo. Dá pra adicionar
 > um registro histórico depois, se fizer falta — não é decisão que trava nada agora.
 
-- [ ] `backend/src/services/mercadolivre.service.ts` — busca em `api.mercadolibre.com/sites/MLB/search?q=...`, ordena por preço, devolve os 5 mais baratos
-- [ ] Helper pra buscar preço médio/último pago pro mesmo `productId` no histórico (reaproveita dado que já existe, mesma info da tela "Consulta por Produto")
-- [ ] `ai.service.ts` — nova função `generatePriceReport(description, paidPrice, historyPrices, marketPrices)`: manda o que tiver disponível das duas fontes + o preço pago, pede relatório curto (1-2 frases) com veredito
-- [ ] Endpoint novo `POST /ai/price-report` — busca histórico + Mercado Livre, chama a IA, devolve o relatório (sem salvar nada)
+- [x] `backend/src/services/mercadolivre.service.ts` — busca em `api.mercadolibre.com/sites/MLB/search?q=...`, ordena por preço, devolve os 5 mais baratos
+- [x] Helper pra buscar preço médio/último pago pro mesmo `productId` no histórico (`getRecentUnitPrices`, reaproveita dado que já existe, mesma info da tela "Consulta por Produto")
+- [x] `ai.service.ts` — nova função `generatePriceReport(description, paidPrice, historyPrices, marketPrices)`: manda o que tiver disponível das duas fontes + o preço pago, pede relatório em JSON (`{ verdict, text }`) — veredito decidido pela IA, não calculado no código
+- [x] Endpoint novo `POST /ai/price-report` (+ `POST /ai/suggest-category`) — busca histórico + Mercado Livre, chama a IA, devolve o relatório (sem salvar nada), com fallback silencioso em cada etapa
 - [ ] Frontend: componente de selo/tooltip por item na revisão pós-scan do `PurchaseFormView.vue`
 - [ ] Testar com produto já comprado antes (deve ter as duas fontes) e produto novo (só Mercado Livre)
+
+**⚠️ Limitações externas descobertas em 07/08/2026 (testado via curl direto, fora do nosso código):**
+- **Mercado Livre**: `/sites/MLB/search` e `/products/search` retornam `403 Forbidden` pra qualquer chamada não-autenticada no momento — não é bug nosso, é um bloqueio recente e amplo do lado da Mercado Livre (múltiplos relatos de outros devs, inclusive com token OAuth válido, sem explicação oficial). O `mercadolivre.service.ts` já tem fallback silencioso pronto (`marketPrices: []`), então a feature não quebra — só funciona hoje só com a fonte de histórico. Se a ML voltar a liberar o endpoint, funciona sem mudar nada no código. Revisitar se virar bloqueio permanente.
+- **Gemini**: `429` com `limit: 0` — não é estouro de cota de uso, é cota gratuita **travada em zero** até vincular uma conta de faturamento (cartão) ao projeto do Google Cloud associado à API key. Continua gratuito dentro do tier free, é só verificação anti-abuso. Ação: vincular faturamento em [aistudio.google.com/apikey](https://aistudio.google.com/apikey).
 
 **Notas de decisão:**
 - **Por que Gemini**: tier gratuito de verdade (não só crédito de teste que expira), sem mensalidade, roda na nuvem (não precisa de máquina forte local).
 - **Por que não MCP aqui**: MCP server é outra coisa — serve pra expor dados/ações do sistema pra um assistente de IA *usar* (ex: perguntar gastos pelo Claude Desktop), não pra o backend chamar uma IA como utilitário. É um projeto separado, ainda a planejar.
 - **Por que fallback silencioso**: a sugestão de categoria e o alerta de preço são "extras" — se a IA ou o Mercado Livre falharem, o scan continua funcionando normal, só sem a sugestão/alerta.
 - **Por que não pedir preço direto pra IA**: risco de alucinação em fato numérico específico — a IA só processa números reais que a gente já buscou, nunca "lembra" de cabeça.
+- **Por que o veredito (`verdict`) vem da IA em JSON, não calculado no código**: decisão em 07/08/2026 — mais simples de manter (um lugar só decide "bom/médio/alto" e escreve o texto, sem duplicar a lógica), com parse defensivo (remove markdown, cai em `"normal"` se vier fora do esperado) cobrindo o risco de inconsistência.
 
 ---
 
