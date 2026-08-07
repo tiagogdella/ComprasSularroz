@@ -234,25 +234,36 @@ Marque cada item com `[x]` conforme for concluindo.
 - [ ] Ligar no `handleScanned` do `PurchaseFormView.vue`: ao criar produto novo durante o scan, chama a sugestão de categoria antes de `productPicker.create`
 - [ ] Testar com nota real que tenha produto novo (não cadastrado ainda) e conferir se a categoria sugerida faz sentido
 
-### Alerta de preço (evoluído em 06/08/2026 — ideia melhorada, 3 fontes de confiança)
+### Alerta de preço (desenho final em 07/08/2026 — histórico + Mercado Livre combinados)
 
 > Ideia original era pedir preço de referência direto pra IA — **descartada**: LLM não tem
 > conhecimento confiável de preço atual de mercado (é fato numérico específico, não "julgamento"
-> como categoria — risco real de alucinação). Desenho final usa a IA só pra **interpretar dado
-> real**, nunca pra "lembrar" preço de cabeça:
+> como categoria — risco real de alucinação). Desenho final: a IA só **interpreta dado real**,
+> nunca "lembra" preço de cabeça.
 >
-> 1. **Histórico de compra do próprio produto** (mais confiável — o que a empresa já pagou antes)
-> 2. **Busca real na API pública do Mercado Livre** (produto novo, sem histórico — preço real de
->    anúncio, sem IA nenhuma nessa parte)
-> 3. **IA gera só o relatório em texto** comparando o preço pago com os preços reais encontrados
->    (ex: "está ~15% acima da média de mercado") — ela recebe os números prontos, não inventa nada
+> **Fontes, combinadas quando disponíveis (não é "um ou outro"):**
+> 1. **Histórico de compra do próprio produto** (se já comprou antes)
+> 2. **5 anúncios mais baratos do Mercado Livre** (busca real, sempre, produto novo ou não —
+>    referência externa pega coisa que só olhar o próprio histórico não pegaria)
+> 3. **IA gera um relatório único em texto**, juntando o que tiver disponível das duas fontes
+>    (ex: "você pagou R$X; da última vez pagou R$Y; no Mercado Livre a média dos mais baratos é
+>    R$Z" + veredito curto: dentro da média / atenção / alto)
+>
+> **Como aparece pro usuário**: selo por item na revisão do formulário pós-scan (🟢/🟡/🔴), texto
+> completo da IA num tooltip/popover ao passar o mouse — não polui a tela, nunca bloqueia o
+> lançamento.
+>
+> **Armazenamento**: **não guarda nada** (nem preço do Mercado Livre, nem texto da IA) — é um
+> alerta do momento da revisão, o preço externo muda o tempo todo e ficaria desatualizado rápido.
+> Só o que já é salvo hoje (produto/quantidade/valor pago) continua sendo salvo. Dá pra adicionar
+> um registro histórico depois, se fizer falta — não é decisão que trava nada agora.
 
-- [ ] `backend/src/services/mercadolivre.service.ts` — busca em `api.mercadolibre.com/sites/MLB/search?q=...` (pública, gratuita, sem cadastro), devolve lista de preços reais encontrados
-- [ ] `backend/src/services/purchase.service.ts` (ou novo helper) — buscar preço médio/último pago pro mesmo `productId`, reaproveitando dado que já existe (mesma info da tela "Consulta por Produto")
-- [ ] `ai.service.ts` — nova função `generatePriceReport(description, paidPrice, referencePrices)`: manda os preços reais (histórico OU Mercado Livre) + o preço pago, pede um resumo curto (1-2 frases) dizendo se está na média/alto/baixo
-- [ ] Endpoint novo (`POST /ai/price-report` ou dentro do fluxo de scan) — decide a fonte: se tem histórico do produto usa ele, senão busca no Mercado Livre, senão não mostra alerta nenhum
-- [ ] Frontend: mostra o alerta na tela de revisão do formulário (depois do scan), claramente marcado como "estimativa" quando vier do Mercado Livre — nunca bloqueia o lançamento da compra, é só informativo
-- [ ] Testar com produto já comprado antes (deve usar histórico) e produto novo (deve usar Mercado Livre)
+- [ ] `backend/src/services/mercadolivre.service.ts` — busca em `api.mercadolibre.com/sites/MLB/search?q=...`, ordena por preço, devolve os 5 mais baratos
+- [ ] Helper pra buscar preço médio/último pago pro mesmo `productId` no histórico (reaproveita dado que já existe, mesma info da tela "Consulta por Produto")
+- [ ] `ai.service.ts` — nova função `generatePriceReport(description, paidPrice, historyPrices, marketPrices)`: manda o que tiver disponível das duas fontes + o preço pago, pede relatório curto (1-2 frases) com veredito
+- [ ] Endpoint novo `POST /ai/price-report` — busca histórico + Mercado Livre, chama a IA, devolve o relatório (sem salvar nada)
+- [ ] Frontend: componente de selo/tooltip por item na revisão pós-scan do `PurchaseFormView.vue`
+- [ ] Testar com produto já comprado antes (deve ter as duas fontes) e produto novo (só Mercado Livre)
 
 **Notas de decisão:**
 - **Por que Gemini**: tier gratuito de verdade (não só crédito de teste que expira), sem mensalidade, roda na nuvem (não precisa de máquina forte local).
