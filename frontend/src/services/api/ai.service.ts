@@ -1,9 +1,8 @@
-import ProductHistoryView from "../../views/ProductHistoryView.vue";
 import { http } from "./http";
 
 export function suggestCategory(description: string) {
     return http
-    .post<{ caregory: string }>("/ai/suggest-category", { description })
+    .post<{ category: string }>("/ai/suggest-category", { description })
     .then((res) => res.data.category);
 }
 
@@ -16,6 +15,6 @@ export interface PriceReport {
 
 export function fetchPriceReport(description: string, paidPrice: number, productId?: number) {
     return http
-        .post<PriceReport>("/ai/price-report", { description, paidPrice, productId })
-        .then((res) => res.data);
+    .post<PriceReport>("/ai/price-report", { description, paidPrice, productId })
+    .then((res) => res.data);
 }

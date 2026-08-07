@@ -30,7 +30,7 @@ produto: ${description}
 categoria:`;
 
     const text = await callGroq(prompt);
-    return text.trim();
+    return text.trim().toUpperCase();
 }
 
 export interface PriceReport {

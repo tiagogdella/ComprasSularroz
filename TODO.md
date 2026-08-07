@@ -230,9 +230,9 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] `backend/src/services/ai.service.ts` — `suggestCategory(description)`, chamada à API do Gemini (`generateContent`), prompt pedindo só o nome da categoria, sem explicação
 - [x] `backend/src/controllers/ai.controller.ts` + `backend/src/routes/ai.routes.ts` — `POST /ai/suggest-category`, autenticado, com **fallback silencioso** pra "Não classificado" se a IA falhar (não pode travar o lançamento de compra)
 - [x] Registrar a rota em `backend/src/index.ts`
-- [ ] `frontend/src/services/api/ai.service.ts` — chama o endpoint novo
-- [ ] Ligar no `handleScanned` do `PurchaseFormView.vue`: ao criar produto novo durante o scan, chama a sugestão de categoria antes de `productPicker.create`
-- [ ] Testar com nota real que tenha produto novo (não cadastrado ainda) e conferir se a categoria sugerida faz sentido
+- [x] `frontend/src/services/api/ai.service.ts` — chama o endpoint novo
+- [x] Ligar no `handleScanned` do `PurchaseFormView.vue`: ao criar produto novo durante o scan, chama a sugestão de categoria antes de `productPicker.create`
+- [x] Testar com nota real que tenha produto novo (não cadastrado ainda) e conferir se a categoria sugerida faz sentido — **testado 07/08/2026**: categorias vieram coerentes (ex: "ARAME DE SOLDA", "FERRAMENTAS CORTANTES"); reescaneada a mesma nota depois, os 4 produtos foram reconhecidos como já existentes (nenhuma chamada de IA disparada, nenhum duplicado criado)
 
 ### Alerta de preço (desenho final em 07/08/2026 — histórico + Mercado Livre combinados)
 

@@ -8,6 +8,7 @@ import { useAuthStore } from "../stores/auth.store";
 import { createPurchase } from "../services/api/purchase.service";
 import { fetchNfeData } from "../services/api/xml.service";
 import AccessKeyScanner from "../components/AccessKeyScanner.vue";
+import { suggestCategory } from "../services/api/ai.service.ts";
 
 const message = useMessage();
 
@@ -99,12 +100,19 @@ async function handleScanned(accessKey: string) {
         items.value = [];
         for (const nfeItem of data.items) {
             let product = productPicker.list.find(
-                (p: any) => p.name.toLowerCase() === nfeItem.description.toUpperCase()
+                (p: any) => p.name.toUpperCase() === nfeItem.description.toUpperCase()
             );
             if (!product) {
+                let category = "Não classificado";
+                try {
+                    category = await suggestCategory(nfeItem.description);
+                } catch {
+                    // se falhar segue com sugestão da ia
+                }
+
                 product = await productPicker.create({
-                    name: nfeItem.description,
-                    category: "Não classificado",
+                    name: nfeItem.description.toUpperCase(),
+                    category,
                     unit: nfeItem.unit,
                 });
             }
