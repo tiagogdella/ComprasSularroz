@@ -8,10 +8,9 @@ import { useAuthStore } from "../stores/auth.store";
 import { createPurchase } from "../services/api/purchase.service";
 import { fetchNfeData } from "../services/api/xml.service";
 import AccessKeyScanner from "../components/AccessKeyScanner.vue";
-import { suggestCategory } from "../services/api/ai.service.ts";
+import { suggestCategory, fetchPriceReport, type PriceReport } from "../services/api/ai.service";
 
 const message = useMessage();
-
 const supplierPicker = useEntityPicker<Supplier, CreateSupplierInput>(listSuppliers, createSupplier);
 const productPicker = useEntityPicker<Product, CreateProductInput>(listProducts, createProduct);
 const supplierId = ref<number | null>(null);
@@ -20,6 +19,8 @@ const issueDate = ref<number | null>(null);
 const entryMethod = ref<"MANUAL" | "SCANNED">("MANUAL");
 const authStore = useAuthStore();
 const submitting = ref(false);
+const priceReports = ref<(PriceReport | null)[]>([]);
+const priceReportsLoading = ref<boolean[]>([]);
 
 const entryMethodOptions = [
     { label: "Manual", value: "MANUAL" },
@@ -52,10 +53,14 @@ const items = ref<PurchaseItemForm[]>([]);
 
 function addItem() {
     items.value.push({ productId: null, quantity: null, unitPrice: null });
+    priceReports.value.push(null);
+    priceReportsLoading.value.push(false);
 }
 
 function removeItem(index: number){
     items.value.splice(index, 1);
+    priceReports.value.splice(index, 1);
+    priceReportsLoading.value.splice(index, 1);
 }
 
 function itemTotal(item: PurchaseItemForm) {
@@ -122,11 +127,50 @@ async function handleScanned(accessKey: string) {
                 unitPrice: nfeItem.unitPrice,
             });
         }
-
+        
+        loadAllPriceReports(); // não bloqueia — selos aparecem aos poucos
         message.success("Nota lida — confira os dados antes de lançar");
     } catch {
         message.error("Erro ao consultar a nota fiscal");
     }
+}
+
+async function loadPriceReport(index: number) {
+    const item = items.value[index];
+    if (!item || !item.productId) return;
+
+    const product = productPicker.list.find((p: any) => p.id === item.productId);
+    if (!product) return 
+
+    priceReportsLoading.value[index] = true;
+    try {
+        priceReports.value[index] = await fetchPriceReport(product.name, item.unitPrice ?? 0, item.productId);
+    } catch {
+        priceReports.value[index] = null;
+    } finally {
+        priceReportsLoading.value[index] = false;
+    }
+}
+
+async function loadAllPriceReports() {
+    priceReports.value = items.value.map(() => null);
+    priceReportsLoading.value = items.value.map(() => false);
+
+    for (let i = 0; i < items.value.length; i++) {
+        await loadPriceReport(i);
+    }
+}
+
+function verdictTagType(verdict: PriceReport["verdict"]) {
+    if (verdict === "low") return "success";
+    if (verdict === "high") return "error";
+    return "warning";
+}
+
+function verdictLabel(verdict: PriceReport["verdict"]) {
+    if (verdict === "low") return "🟢 Baixo";
+    if (verdict === "high") return "🔴 Alto";
+    return "🟡 Médio";
 }
 
 function openNewProductModal(index: number) {
@@ -258,6 +302,15 @@ async function handleSubmit() {
             <n-input-number v-model:value="item.quantity" placeholder="Qtd" style="flex: 1" />
             <n-input-number v-model:value="item.unitPrice" placeholder="Valor unit." :precision="2" style="flex: 1" />
             <span style="flex: 1">{{ itemTotal(item).toFixed(2) }}</span>
+            <n-tooltip v-if="priceReports[index]" trigger="hover">
+                <template #trigger>
+                    <n-tag :type="verdictTagType(priceReports[index]!.verdict)" round size="small">
+                        {{ verdictLabel(priceReports[index]!.verdict) }}
+                    </n-tag>
+                </template>
+                {{ priceReports[index]!.text || "Sem dados suficientes pra comparar." }}
+            </n-tooltip>
+            <n-spin v-else-if="priceReportsLoading[index]" size="small" />
             <n-button text type="error" @click="removeItem(index)">remover</n-button>
         </div>
 

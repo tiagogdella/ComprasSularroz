@@ -262,8 +262,10 @@ Marque cada item com `[x]` conforme for concluindo.
 - [x] Helper pra buscar preço médio/último pago pro mesmo `productId` no histórico (`getRecentUnitPrices`, reaproveita dado que já existe, mesma info da tela "Consulta por Produto")
 - [x] `ai.service.ts` — nova função `generatePriceReport(description, paidPrice, historyPrices, marketPrices)`: manda o que tiver disponível das duas fontes + o preço pago, pede relatório em JSON (`{ verdict, text }`) — veredito decidido pela IA, não calculado no código
 - [x] Endpoint novo `POST /ai/price-report` (+ `POST /ai/suggest-category`) — busca histórico + Mercado Livre, chama a IA, devolve o relatório (sem salvar nada), com fallback silencioso em cada etapa
-- [ ] Frontend: componente de selo/tooltip por item na revisão pós-scan do `PurchaseFormView.vue`
-- [ ] Testar com produto já comprado antes (deve ter as duas fontes) e produto novo (só Mercado Livre)
+- [x] Frontend: componente de selo/tooltip por item na revisão pós-scan do `PurchaseFormView.vue` — selo colorido (`n-tag`, verde/amarelo/vermelho) com `n-tooltip` mostrando o texto da IA, busca em background (não trava o "Nota lida"), sequencial pra respeitar rate limit do Groq
+- [x] Testado com produto já comprado antes (histórico funcionando: reconheceu preços iguais aos anteriores, veredito "normal") — **Mercado Livre não pôde ser testado como segunda fonte** por causa do bloqueio externo (403) já documentado acima; a IA reconheceu honestamente a ausência dessa fonte em vez de inventar. Revisitar esse teste específico se a ML voltar a liberar o endpoint.
+
+**✅ Feature completa em 07/08/2026** (categorização por IA + alerta de preço, ambas testadas ponta a ponta com notas reais).
 
 **⚠️ Limitações externas descobertas em 07/08/2026 (testado via curl direto, fora do nosso código):**
 - **Mercado Livre**: `/sites/MLB/search` e `/products/search` retornam `403 Forbidden` pra qualquer chamada não-autenticada no momento — não é bug nosso, é um bloqueio recente e amplo do lado da Mercado Livre (múltiplos relatos de outros devs, inclusive com token OAuth válido, sem explicação oficial). O `mercadolivre.service.ts` já tem fallback silencioso pronto (`marketPrices: []`), então a feature não quebra — só funciona hoje só com a fonte de histórico. Se a ML voltar a liberar o endpoint, funciona sem mudar nada no código. Revisitar se virar bloqueio permanente.
