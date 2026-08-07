@@ -18,6 +18,11 @@ Sistema para controle de compras de peças e materiais de manutenção: cadastro
 **Infra**
 - PostgreSQL via Docker Compose
 
+**Integrações externas**
+- [`API_Sefaz`](../API_Sefaz) (serviço Python separado) — consulta de notas fiscais via certificado digital (webservice nacional NFe Distribuição DFe)
+- [Groq](https://console.groq.com/) (LLM, tier gratuito) — sugestão de categoria de produto novo e relatório de alerta de preço
+- [Mercado Livre](https://developers.mercadolivre.com.br/) (busca pública) — referência externa de preço pro alerta; atualmente indisponível (403 do lado deles), ver `TODO.md`
+
 ## Estrutura do repositório
 
 ```
@@ -102,6 +107,9 @@ Rotas expostas pelo backend (prefixo `http://localhost:3000`):
 | Fornecedores | `/suppliers` | leitura pública, escrita autenticada |
 | Produtos | `/products` | leitura pública, escrita autenticada |
 | Compras | `/purchases` | leitura pública, escrita autenticada |
+| Estatísticas/dashboard | `/stats` | autenticada |
+| Consulta SEFAZ (XML/nota via chave de acesso) | `/sefaz` | autenticada |
+| IA (categoria sugerida, alerta de preço) | `/ai` | autenticada |
 
 Uma collection Postman pronta para uso está em [docs/api-collection.postman_collection.json](docs/api-collection.postman_collection.json).
 

@@ -302,7 +302,7 @@ async function handleSubmit() {
             <n-input-number v-model:value="item.quantity" placeholder="Qtd" style="flex: 1" />
             <n-input-number v-model:value="item.unitPrice" placeholder="Valor unit." :precision="2" style="flex: 1" />
             <span style="flex: 1">{{ itemTotal(item).toFixed(2) }}</span>
-            <n-tooltip v-if="priceReports[index]" trigger="hover">
+            <n-tooltip v-if="priceReports[index]" trigger="hover" style="max-width: 260px; white-space: normal;">
                 <template #trigger>
                     <n-tag :type="verdictTagType(priceReports[index]!.verdict)" round size="small">
                         {{ verdictLabel(priceReports[index]!.verdict) }}

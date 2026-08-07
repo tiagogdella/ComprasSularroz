@@ -39,6 +39,15 @@ export async function priceReport(req: Request, res: Response) {
         console.error("Mercado livre search failed:", error);
     }
 
+    if (historyPrices.length === 0 && marketPrices.length === 0) {
+        return res.json({
+            verdict: "normal",
+            text: "Sem histórico nem referência de mercado pra comparar.",
+            historyPrices,
+            marketPrices,
+        });
+    }
+
     try {
         const report = await aiService.generatePriceReport(description, paidPrice, historyPrices, marketPrices);
         res.json({ ...report, historyPrices, marketPrices });
