@@ -83,7 +83,7 @@ Acesso: `http://<IP-do-servidor>` (ex: `http://192.168.1.44`), via Traefik (já 
 
 ## Secrets (não versionados no Git)
 
-**`app-secrets`** — credenciais do Postgres, `JWT_SECRET` e `DATABASE_URL`:
+**`app-secrets`** — credenciais do Postgres, `JWT_SECRET`, `DATABASE_URL` e `GROQ_API_KEY`:
 
 ```bash
 sudo kubectl create secret generic app-secrets \
@@ -92,8 +92,19 @@ sudo kubectl create secret generic app-secrets \
   --from-literal=POSTGRES_PASSWORD='<senha>' \
   --from-literal=POSTGRES_DB=purchases_db \
   --from-literal=JWT_SECRET='<string aleatória>' \
-  --from-literal=DATABASE_URL='postgresql://purchases_app:<senha>@postgres:5432/purchases_db'
+  --from-literal=DATABASE_URL='postgresql://purchases_app:<senha>@postgres:5432/purchases_db' \
+  --from-literal=GROQ_API_KEY='<key gerada em console.groq.com/keys>'
 ```
+
+Pra só **adicionar** `GROQ_API_KEY` a um `app-secrets` que já existe (sem recriar do zero, sem precisar saber os outros valores):
+
+```bash
+GROQ_KEY='<key gerada em console.groq.com/keys>'
+sudo kubectl patch secret app-secrets -n comprassularroz --type=merge \
+  -p "{\"data\":{\"GROQ_API_KEY\":\"$(echo -n "$GROQ_KEY" | base64 -w0)\"}}"
+```
+
+> ⚠️ `SEFAZ_API_KEY` **não** está nesse secret — o backend reaproveita o secret `sefaz-secrets` (criado junto com o `API_Sefaz`) direto no `backend-deployment.yaml`, via `secretKeyRef` apontando pro outro secret. Ver env vars completas do backend no próprio `~/k8s/backend-deployment.yaml` do servidor (não versionado neste repo).
 
 **`ghcr-secret`** — credencial pra puxar as imagens privadas do ghcr.io:
 
