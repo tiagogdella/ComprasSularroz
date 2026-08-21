@@ -24,3 +24,16 @@ export async function getNfeData(req: Request, res: Response) {
     const data = await sefazService.fetchNfeData(parsed.data.accessKey);
     res.json(data);
 }
+
+export async function getCteXml(req: Request, res: Response) {
+    const parsed = accessKeyParamSchema.safeParse(req.params);
+    if (!parsed.success) {
+        return res.status(400).json({ message: parsed.error.message });
+    }
+
+    const xml = await sefazService.fetchCteXml(parsed.data.accessKey);
+
+    res.setHeader("Content-Type", "application/xml");
+    res.setHeader("Content-Disposition", `attachment; filename="${parsed.data.accessKey}.xml"`);
+    res.send(xml);
+}

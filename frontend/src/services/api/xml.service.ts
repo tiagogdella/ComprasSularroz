@@ -26,3 +26,7 @@ export interface NfeData {
 export function fetchNfeData(accessKey: string) {
     return http.get<NfeData>(`/sefaz/nfe/${accessKey}`).then((res) => res.data);
 }
+
+export function fetchCteXmlBlob(accessKey: string) {
+    return http.get(`/sefaz/cte/xml/${accessKey}`, { responseType: "blob" }).then((res) => res.data as Blob);
+}
