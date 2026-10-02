@@ -7,3 +7,4 @@ export const sefazRouter = Router();
 sefazRouter.get("/xml/:accessKey", authenticate, sefazController.getXml);
 sefazRouter.get("/nfe/:accessKey", authenticate, sefazController.getNfeData);
 sefazRouter.get("/cte/xml/:accessKey", authenticate, sefazController.getCteXml);
+sefazRouter.get("/nfse/xml/:accessKey", authenticate, sefazController.getNfseXml);

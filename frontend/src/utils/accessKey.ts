@@ -21,3 +21,16 @@ export function isValidAccessKey(accessKey: string): boolean {
     const expectedCheckDigit = remainder < 2 ? 0 : 11 - remainder;
     return checkDigit === expectedCheckDigit;
 }
+
+// NFS-e (padrão nacional) usa chave de 50 dígitos, formato diferente da NF-e/CT-e - ver
+// API_Sefaz_CCD/docs/protocolo-nfse-sefaz.md. Algoritmo do dígito verificador ainda não
+// identificado (não é módulo 11, já testamos), então aqui só valida tamanho/formato.
+export function extractNfseAccessKey(raw: string): string | null {
+    const digits = raw.replace(/\D/g, "");
+    const match = digits.match(/\d{50}/);
+    return match ? match[0] : null;
+}
+
+export function isValidNfseAccessKey(accessKey: string): boolean {
+    return /^\d{50}$/.test(accessKey);
+}

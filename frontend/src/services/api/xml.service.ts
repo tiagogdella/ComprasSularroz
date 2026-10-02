@@ -30,3 +30,7 @@ export function fetchNfeData(accessKey: string) {
 export function fetchCteXmlBlob(accessKey: string) {
     return http.get(`/sefaz/cte/xml/${accessKey}`, { responseType: "blob" }).then((res) => res.data as Blob);
 }
+
+export function fetchNfseXmlBlob(accessKey: string) {
+    return http.get(`/sefaz/nfse/xml/${accessKey}`, { responseType: "blob" }).then((res) => res.data as Blob);
+}
