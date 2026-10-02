@@ -114,4 +114,32 @@ export async function fetchCteXml(accessKey: string): Promise<string> {
     return response.text();
 }
 
+export async function fetchNfseXml(accessKey: string): Promise<string> {
+    const response = await fetch(`${SEFAZ_API_URL}/consultas/nfse/xml`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-API-Key": SEFAZ_API_KEY,
+        },
+        body: JSON.stringify({ accessKey }),
+    });
+
+    if (response.status === 404) {
+        throw new AppError(404, "NFS-e não encontrada");
+    }
+    if (response.status === 422) {
+        const body = await response.json();
+        throw new AppError(422, body.detail?.[0]?.msg ?? "Chave de acesso inválida pra NFS-e");
+    }
+    if (response.status === 429) {
+        const body = await response.json();
+        throw new AppError(429, body.detail ?? "Aguarde antes de tentar novamente");
+    }
+    if (!response.ok) {
+        throw new AppError(502, "Erro ao consultar a SEFAZ");
+    }
+
+    return response.text();
+}
+
 

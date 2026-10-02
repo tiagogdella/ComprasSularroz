@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { accessKeyParamSchema } from "../schemas/sefaz.schema.js";
+import { accessKeyParamSchema, nfseAccessKeyParamSchema } from "../schemas/sefaz.schema.js";
 import * as sefazService from "../services/sefaz.service.js";
 
 export async function getXml(req: Request, res: Response) {
@@ -32,6 +32,19 @@ export async function getCteXml(req: Request, res: Response) {
     }
 
     const xml = await sefazService.fetchCteXml(parsed.data.accessKey);
+
+    res.setHeader("Content-Type", "application/xml");
+    res.setHeader("Content-Disposition", `attachment; filename="${parsed.data.accessKey}.xml"`);
+    res.send(xml);
+}
+
+export async function getNfseXml(req: Request, res: Response) {
+    const parsed = nfseAccessKeyParamSchema.safeParse(req.params);
+    if (!parsed.success) {
+        return res.status(400).json({ message: parsed.error.message });
+    }
+
+    const xml = await sefazService.fetchNfseXml(parsed.data.accessKey);
 
     res.setHeader("Content-Type", "application/xml");
     res.setHeader("Content-Disposition", `attachment; filename="${parsed.data.accessKey}.xml"`);
