@@ -15,7 +15,9 @@ async function main() {
         prisma.user.create({ data: { name: "Ramos", login: "ramos", passwordHash: await bcrypt.hash("ramos123", 10) } }),
         prisma.user.create({ data: { name: "Joel", login: "joel", passwordHash: await bcrypt.hash("joel123", 10) } }),
         prisma.user.create({ data: { name: "Miro", login: "miro", passwordHash: await bcrypt.hash("miro123", 10) } }),
-    ]); 
+        prisma.user.create({ data: { name: "Joao", login: "joao", passwordHash: await bcrypt.hash("joao123", 10) } }),
+        prisma.user.create({ data: { name: "Beto", login: "beto", passwordHash: await bcrypt.hash("beto123", 10) } }),
+    ]);
 }
 
 main() 
